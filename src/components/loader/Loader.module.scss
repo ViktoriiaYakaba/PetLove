@@ -1,0 +1,43 @@
+@import '../../sass/index';
+
+.loaderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+
+.loader {
+    position: relative;
+    width: 427px; 
+    height: 427px; 
+    border-radius: 50%;
+    background-color: transparent; 
+    overflow: hidden;
+}
+
+.loaderFill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    border-radius: 50%; 
+    border: 2px solid transparent;
+    border-top-color: rgba(255, 255, 255, 0.2); 
+    transition: transform 0.02s ease-in-out; 
+}
+
+.loaderText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-bold);
+    color: $white-color; 
+    font-size: 80px; 
+    text-align: center; 
+}

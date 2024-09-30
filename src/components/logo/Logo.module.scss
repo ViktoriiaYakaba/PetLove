@@ -1,0 +1,27 @@
+@import '../../sass/index';
+
+.text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-bold);
+    font-size: 50px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: $white-color;
+
+    @include for-tablet {
+    font-size: 80px;
+    }
+    
+    @include for-desktop {
+    font-size: 100px;
+    }
+}
+
+
+
+
