@@ -52,7 +52,7 @@ export const singOutUser = createAsyncThunk('auth/logout', async (_, thunkAPI) =
   }
 });
 
-export const currentUser = createAsyncThunk(
+export const refreshUser = createAsyncThunk(
   'auth/current',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();

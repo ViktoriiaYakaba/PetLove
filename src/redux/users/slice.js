@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { singInUser, singOutUser, singUpUser, currentUser, currentEditUser, currentFullUser, currentPetRemoveId, currentPetsAdd  } from './operation';
+import { singInUser, singOutUser, singUpUser, refreshUser, currentEditUser, currentFullUser, currentPetRemoveId, currentPetsAdd  } from './operation';
 
 
 const initialState = {
@@ -54,14 +54,14 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
-    builder.addCase(currentUser.pending, (state) => {
+    builder.addCase(refreshUser.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(currentUser.fulfilled, (state, action) => {
+    builder.addCase(refreshUser.fulfilled, (state, action) => {
       state.loading = false;
       state.user = action.payload; 
     });
-    builder.addCase(currentUser.rejected, (state, action) => {
+    builder.addCase(refreshUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload; 
     });
