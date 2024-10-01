@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from './FirstLoader.module.scss';
 import Logo from '../logo/Logo'; 
-import Loader from '../loader/Loader'; 
+import LoaderPercent from '../loaderPercent/LoaderPercent'; 
 
 import bgImgDesktop from '../../assets/images/loading-dog-desktop.jpg';
 import bgImgDesktop2x from '../../assets/images/loading-dog-descktop-2x.jpg';
@@ -62,7 +62,7 @@ const FirstLoader = () => {
     <div className={style.container}>
       <div className={style.backgroundImage} style={{ backgroundImage: `url(${bgImage})` }}>
         {showLogo && <Logo />} 
-        {showLoader && <Loader />} 
+        {showLoader && <LoaderPercent />} 
       </div>
     </div>
   );

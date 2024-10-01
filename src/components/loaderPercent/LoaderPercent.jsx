@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import style from './Loader.module.scss';
+import style from './LoaderPercent.module.scss';
 
-const Loader = () => {
+const LoaderPercent = () => {
   const [loadingPercent, setLoadingPercent] = useState(0);
 
   useEffect(() => {
@@ -33,4 +33,4 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export default LoaderPercent;

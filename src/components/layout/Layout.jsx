@@ -17,8 +17,8 @@ const Layout = () => {
 
   return (
     <>
+      {showFirstScreen && <FirstLoader/>}
       <Header />
-{showFirstScreen && <FirstLoader/>}
       <Suspense fallback={null}>
         <Outlet />
       </Suspense>

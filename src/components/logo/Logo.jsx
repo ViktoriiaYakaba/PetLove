@@ -32,9 +32,9 @@ const Logo = () => {
 
   return (
     <h2 className={style.text}>
-      <span>PETL</span>
+      <span>petl</span>
       <SvgIcon width={iconSize} height={iconSize} icon={icon} className={style.icon} />
-      <span>VE</span>
+      <span>ve</span>
     </h2>
   );
 };

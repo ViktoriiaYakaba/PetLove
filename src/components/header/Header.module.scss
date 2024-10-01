@@ -1,0 +1,49 @@
+@import '../../sass/index';
+
+.container {
+    display: flex;
+    max-width: 375px;
+    min-width: 320px;
+    height: 60px; 
+    align-items: center;
+    justify-content: space-between; 
+    padding: 20px;
+
+    @include for-tablet {
+        width: 769px;
+    }
+
+    @include for-desktop {
+        width: 1280px;
+    }
+}
+
+.text {
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-bold);
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: $text-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include for-tablet {
+        font-size: 28px;
+    }
+
+    @include for-desktop {
+        font-size: 28px;
+    }
+}
+
+.burgherBtn {
+    margin-left: auto; 
+
+    @include for-desktop {
+        visibility: hidden; 
+    }
+}
+
+
