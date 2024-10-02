@@ -2,10 +2,11 @@
 
 .container {
     display: flex;
+    align-items: center;
     max-width: 375px;
     min-width: 320px;
     height: 60px; 
-    align-items: center;
+    align-items: start;
     justify-content: space-between; 
     padding: 20px;
 

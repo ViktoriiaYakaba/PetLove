@@ -4,6 +4,7 @@ import { Suspense, useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import FirstLoader from '../firstLoader/FirstLoader';
+import style from './Layout.module.scss';
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -17,11 +18,13 @@ const Layout = () => {
 
   return (
     <>
-      {showFirstScreen && <FirstLoader/>}
+      {showFirstScreen && <FirstLoader />}
+      <div className={style.container}>
       <Header />
       <Suspense fallback={null}>
         <Outlet />
       </Suspense>
+      </div>
     </>
   );
 };
