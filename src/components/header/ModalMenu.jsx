@@ -2,6 +2,12 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import SvgIcon from '../../icon/SvgIcon';
 import style from './ModalMenu.module.scss';
+import clsx from 'clsx';
+
+
+const buildLinkClass = ({ isActive }) => {
+  return clsx(style.listItem, { [style.active]: isActive }); 
+};
 
 const ModalMenu = ({ isMenuOpen, toggleMenu, isAuth }) => {
   return (
@@ -15,17 +21,17 @@ const ModalMenu = ({ isMenuOpen, toggleMenu, isAuth }) => {
           <nav className={style.navMenu}>
             <ul>
               <li>
-                <NavLink to='/news' onClick={toggleMenu}>
+                <NavLink to='/news' className={buildLinkClass} onClick={toggleMenu}>
                   News
                 </NavLink>
               </li>
               <li>
-                <NavLink to='/find-pet' onClick={toggleMenu}>
+                <NavLink to='/find-pet' className={buildLinkClass} onClick={toggleMenu}>
                   Find pet
                 </NavLink>
               </li>
               <li>
-                <NavLink to='/friends' onClick={toggleMenu}>
+                <NavLink to='/friends' className={buildLinkClass} onClick={toggleMenu}>
                   Our friends
                 </NavLink>
               </li>
@@ -36,21 +42,21 @@ const ModalMenu = ({ isMenuOpen, toggleMenu, isAuth }) => {
             {!isAuth ? (
               <>
                 <li className={style.listItemMobile}>
-                  <button className={style.buttonMobileLogIn} type='button'>
-                    <NavLink to='/login' onClick={toggleMenu}>LOG IN</NavLink>
-                  </button>
+                  <NavLink to='/login' className={style.buttonMobileLogIn} onClick={toggleMenu}>
+                    LOG IN
+                  </NavLink>
                 </li>
                 <li className={style.listItemMobileRegister}>
-                  <button className={style.buttonMobile} type='button'>
-                    <NavLink to='/register' onClick={toggleMenu}>REGISTRATION</NavLink>
-                  </button>
+                  <NavLink to='/register' className={style.buttonMobile} onClick={toggleMenu}>
+                    REGISTRATION
+                  </NavLink>
                 </li>
               </>
             ) : (
               <li className={style.listItemMobileRegister}>
-                <button className={style.buttonMobile} type='button'>
-                  <NavLink to='/logout' onClick={toggleMenu}>LOG OUT</NavLink>
-                </button>
+                <NavLink to='/logout' className={style.buttonMobile} onClick={toggleMenu}>
+                  LOG OUT
+                </NavLink>
               </li>
             )}
           </ul>
@@ -61,3 +67,4 @@ const ModalMenu = ({ isMenuOpen, toggleMenu, isAuth }) => {
 }
 
 export default ModalMenu;
+

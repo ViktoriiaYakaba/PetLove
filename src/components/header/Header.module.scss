@@ -3,19 +3,20 @@
 .container {
     display: flex;
     align-items: center;
-    max-width: 375px;
-    min-width: 320px;
+    justify-content: space-between;
+
+    width: 375px;
     height: 60px; 
-    align-items: start;
-    justify-content: space-between; 
     padding: 20px;
+    border:1px solid red;
 
     @include for-tablet {
-        width: 769px;
+    width: 769px;
+    height: 70px;
     }
 
     @include for-desktop {
-        width: 1280px;
+    width: 1280px;
     }
 }
 
@@ -31,20 +32,137 @@
     align-items: center;
 
     @include for-tablet {
-        font-size: 28px;
+    font-size: 28px;
     }
 
     @include for-desktop {
-        font-size: 28px;
+    font-size: 28px;
     }
 }
 
 .burgherBtn {
-    margin-left: auto; 
+    cursor: pointer;
 
     @include for-desktop {
-        visibility: hidden; 
+    display: none;
     }
 }
 
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.listButton{
+    display: none;
+
+    @include for-tablet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    }
+    
+    @include for-desktop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    }
+}
+
+.buttonLogIn{
+    border-radius: 30px;
+    padding: 15px;
+    width: 149px;
+    height: 50px;
+    background-color: $orange-color;
+
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: $white-color;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+    background-color: #f9b020;
+    }
+}
+
+.listItemRegister {
+    border-radius: 30px;
+    padding: 12px 41px;
+    width: 178px;
+    height: 50px;
+    background-color: $ligthOrange-color;
+
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: $orange-color;
+    transition: 0.5s ease;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background-color: #fbe7c1;
+    }
+}
+
+.nav{
+    display: none;
+    
+    @include for-desktop {
+    display: block;
+    }
+}
+
+.list{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.listItem{  
+    cursor: pointer;
+    border: 1px solid rgba(38, 38, 38, 0.15);
+    border-radius: 30px;
+    padding: 15px;
+    height: 50px;
+
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: $text-color;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+    border-color: $orange-color;
+    }
+}
+
+.active {
+    border-color: $orange-color; 
+}
 

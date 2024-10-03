@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import style from './Header.module.scss';
+import style from './Header.module.scss'; 
 import { IoMenuSharp } from "react-icons/io5";
 import { useSelector } from 'react-redux';
 import SvgIcon from '../../icon/SvgIcon';
 import { NavLink } from 'react-router-dom';
 import ModalMenu from './ModalMenu';
+import clsx from 'clsx';
+
+
+const buildLinkClass = ({ isActive }) => {
+  return clsx(style.listItem, { [style.active]: isActive }); 
+};
 
 const Header = () => {
   const [icon, setIcon] = useState('heard-mobile');
   const [iconSize, setIconSize] = useState(44);
   const [isMenuOpen, setIsMenuOpen] = useState(false); 
-  const isAuth = useSelector((state)=>state.auth.isAuth)
+  const isAuth = useSelector((state) => state.auth.isAuth); 
 
   useEffect(() => {
     const updateIcon = () => {
@@ -18,23 +24,23 @@ const Header = () => {
       const isTablet = window.matchMedia('(min-width: 768px) and (max-width: 1023px)').matches;
 
       if (isDesktop || isTablet) {
-        setIcon('heart-desktop');
+        setIcon('heart-desktop'); 
         setIconSize(23);
       } else {
-        setIcon('heard-mobile');
+        setIcon('heard-mobile'); 
         setIconSize(17);
       }
     };
 
-    updateIcon();
+    updateIcon(); 
     window.addEventListener('resize', updateIcon);
     return () => {
-      window.removeEventListener('resize', updateIcon);
+      window.removeEventListener('resize', updateIcon); 
     };
   }, []);
 
   const toggleMenu = () => {
-    setIsMenuOpen(prevState => !prevState);
+    setIsMenuOpen(prevState => !prevState); 
   };
 
   return (
@@ -47,32 +53,55 @@ const Header = () => {
         </p>
       </NavLink>
 
-      <ul className={style.listButton}>
-            {!isAuth ? (
-              <>
-                <li className={style.listButtonItem}>
-                  <button className={style.buttonLogIn} type='button'>
-                    <NavLink to='/login' onClick={toggleMenu}>LOG IN</NavLink>
-                  </button>
-                </li>
-                <li className={style.listItemRegister}>
-                  <button className={style.button} type='button'>
-                    <NavLink to='/register' onClick={toggleMenu}>REGISTRATION</NavLink>
-                  </button>
-                </li>
-              </>
-            ) : (
-              <li className={style.listItemRegister}>
-                <button className={style.button} type='button'>
-                  <NavLink to='/logout' onClick={toggleMenu}>LOG OUT</NavLink>
+      <nav className={style.nav}>
+        <ul className={style.list}>
+          <li>
+            <NavLink to='/news' className={buildLinkClass}>
+              News
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to='/find-pet' className={buildLinkClass}>
+              Find pet
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to='/friends' className={buildLinkClass}>
+              Our friends
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+
+      <div className={style.wrapper}>
+        <ul className={style.listButton}>
+          {!isAuth ? (
+            <>
+              <li className={style.listButtonItem}>
+                <button className={style.buttonLogIn} type='button'>
+                  <NavLink to='/login' onClick={toggleMenu}>LOG IN</NavLink>
                 </button>
               </li>
-            )}
-          </ul>
+              <li className={style.listItemRegister}>
+                <button className={style.button} type='button'>
+                  <NavLink to='/register' onClick={toggleMenu}>REGISTRATION</NavLink>
+                </button>
+              </li>
+            </>
+          ) : (
+            <li className={style.listItemRegister}>
+              <button className={style.button} type='button'>
+                <NavLink to='/logout' onClick={toggleMenu}>LOG OUT</NavLink>
+              </button>
+            </li>
+          )}
+        </ul>
+  
+        <button type='button' className={style.burgherBtn} onClick={toggleMenu}>
+          <IoMenuSharp size={32} />
+        </button>
+      </div>
 
-      <button type='button' className={style.burgherBtn} onClick={toggleMenu}>
-        <IoMenuSharp size={32} />
-      </button>
       <ModalMenu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} isAuth={isAuth} />
     </div>
   );

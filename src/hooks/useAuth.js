@@ -4,7 +4,7 @@ import { selectCurrentUser, selectIsLoggedIn, selectIsRefreshing  } from "../red
 export const useAuth = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const isRefreshing = useSelector(selectIsRefreshing);
-    const user = useSelector(selectCurrentUser);
+  const user = useSelector(selectCurrentUser);
 
   return {
     isLoggedIn,
