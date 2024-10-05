@@ -6,12 +6,12 @@
     flex-direction: column;
     gap: 10px;
 
-    @include for-desktop {
-     flex-direction: row;
-     gap: 15px;
+    @include for-tablet {
+    gap: 15px;
     }
 
     @include for-desktop{
+    flex-direction: row;
     gap: 20px;
     }
 

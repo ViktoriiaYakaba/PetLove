@@ -5,3 +5,5 @@ export const selectTotalPages = state => state.news.totalPages;
 export const selectIsLoadingNews = state => state.news.isLoading;
 
 export const selectIsErrorNews = state => state.news.isError;
+
+export const selectIsLastPage = state => state.news.lastPage;

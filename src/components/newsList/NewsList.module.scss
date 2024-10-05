@@ -1,0 +1,26 @@
+@import '../../sass/index';
+
+.newsList{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 20px;
+
+    width: 335px;
+
+    @include for-tablet{
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 704px;
+    gap: 24px;
+    }
+
+    @include for-desktop{
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 1153px;
+        gap: 35px;
+    }
+}

@@ -1,0 +1,120 @@
+@import '../../sass/index';
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 335px;
+    gap: 15px;
+
+    @include for-tablet{
+    width: 340px;
+    }
+
+    @include for-desktop{
+    width: 361px;  
+    }
+}
+
+.img{
+    border-radius: 15px;
+    width: 335px;
+    height: 226px;
+
+    @include for-tablet {
+        width: 340px;
+    }
+
+    @include for-desktop {
+        width: 361px;
+    }
+
+}
+
+.containerContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 335px;
+    height: 124px;
+    gap: 12px;
+
+    @include for-tablet {
+    width: 340px;
+    height: 146px;
+    }
+
+    @include for-desktop {
+    width: 361px;
+    height: 146px;
+    }
+
+}
+.title{
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: $text-color;
+}
+.text{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.02em;
+    color: $text-color;
+    height: 80px;
+}
+
+.data{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.02em;
+    color: rgba(38, 38, 38, 0.5);
+}
+
+.containerInform{
+    width: 335px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @include for-tablet {
+        width: 340px;
+    }
+
+    @include for-desktop {
+        width: 361px;
+    }
+}
+.link {
+    position: relative;
+    display: inline-block;
+
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.02em;
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+    color: $orange-color;
+
+}
+
+.hiddenLink {
+    color: transparent;
+    text-decoration: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}

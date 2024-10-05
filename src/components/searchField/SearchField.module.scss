@@ -1,0 +1,66 @@
+@import '../../sass/index';
+
+.inputWrapper{
+    border: 1px solid rgba(38, 38, 38, 0.15);
+    transition: 0.5s ease;
+    border-radius: 30px;
+    padding: 14px;
+    width: 335px;
+    height: 42px;
+    
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3px;
+
+    &:hover,
+    &:active{
+    border-color: $orange-color;
+    }
+
+    @include for-tablet{
+    width: 230px;
+    height: 48px;
+    }
+
+    @include for-desktop{
+    width: 230px;
+    height: 48px;   
+    }
+
+}
+
+.searchInput{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: $text-color;
+
+    &::placeholder{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: rgba(38, 38, 38, 0.5);
+    }
+}
+
+.searchButton {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.clearButton {
+    position: absolute;
+    right: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}

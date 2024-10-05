@@ -1,0 +1,17 @@
+@import '../../sass/index';
+
+.title{
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: $text-color;
+
+    @include for-tablet {
+    font-size: 54px;
+    }
+
+    @include for-desktop {
+    font-size: 54px;
+    }
+}

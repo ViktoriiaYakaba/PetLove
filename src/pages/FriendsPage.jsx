@@ -1,11 +1,12 @@
-import React from 'react'
+import React from 'react';
+import Friends from '../components/friends/Friends';
 
-const Friends = () => {
+const FriendsPage = () => {
   return (
     <div>
-      
+      <Friends/>
     </div>
   )
 }
 
-export default Friends;
+export default FriendsPage
