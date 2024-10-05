@@ -1,20 +1,31 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import SvgIcon from '../../icon/SvgIcon';
 import style from './ModalMenu.module.scss';
 import clsx from 'clsx';
-
 
 const buildLinkClass = ({ isActive }) => {
   return clsx(style.listItem, { [style.active]: isActive }); 
 };
 
-const ModalMenu = ({ isMenuOpen, toggleMenu, isAuth }) => {
+const ModalMenu = ({ isMenuOpen, toggleMenu, isAuth, onLogoutClick }) => {
+  const location = useLocation();
+  const isHome = location.pathname === "/"; 
+
+  const containerMobileClass = clsx(style.conteinerModalMobile, { 
+    [style.white]: isHome 
+  });
+
   return (
     <div className={`${style.containerModal} ${isMenuOpen ? style.show : ''}`}>
-      <div className={style.conteinerModalMobile}>
+      <div className={containerMobileClass}>
         <button className={style.btnEsk} type='button' onClick={toggleMenu}>
-          <SvgIcon width='32' height='32' icon='x' className={style.icon} />
+          
+          {isHome ? (
+            <SvgIcon width='32' height='32' icon='x' className={style.icon} />
+          ) : (
+            <SvgIcon width='32' height='32' icon='esc-white' className={style.icon} />
+          )}
         </button>
         
         <div className={style.wraper}>
@@ -42,21 +53,21 @@ const ModalMenu = ({ isMenuOpen, toggleMenu, isAuth }) => {
             {!isAuth ? (
               <>
                 <li className={style.listItemMobile}>
-                  <NavLink to='/login' className={style.buttonMobileLogIn} onClick={toggleMenu}>
+                  <NavLink to='/login' className={clsx(style.buttonMobileLogIn, { [style.blackText]: isHome })} onClick={toggleMenu}>
                     LOG IN
                   </NavLink>
                 </li>
                 <li className={style.listItemMobileRegister}>
-                  <NavLink to='/register' className={style.buttonMobile} onClick={toggleMenu}>
+                  <NavLink to='/register' className={clsx(style.buttonMobile, { [style.blackText]: isHome })} onClick={toggleMenu}>
                     REGISTRATION
                   </NavLink>
                 </li>
               </>
             ) : (
               <li className={style.listItemMobileRegister}>
-                <NavLink to='/logout' className={style.buttonMobile} onClick={toggleMenu}>
+                <button className={clsx(style.buttonMobile, { [style.blackText]: isHome })} onClick={onLogoutClick}>
                   LOG OUT
-                </NavLink>
+                </button>
               </li>
             )}
           </ul>
@@ -67,4 +78,3 @@ const ModalMenu = ({ isMenuOpen, toggleMenu, isAuth }) => {
 }
 
 export default ModalMenu;
-

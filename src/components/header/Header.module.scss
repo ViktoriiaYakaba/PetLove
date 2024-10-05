@@ -4,11 +4,33 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
 
     width: 375px;
     height: 60px; 
     padding: 20px;
-    border:1px solid red;
+
+    &.white {
+    border-radius: 30px;
+    width: 335px;
+    height: 390px;
+    color: $white-color; 
+    background-color: $orange-color;
+    align-items: start;
+    flex-wrap: wrap;
+
+    @include for-tablet {
+    border-radius: 60px;
+    width: 704px;
+    height: 496px;
+    }
+    
+    @include for-desktop {
+    border-radius: 60px;
+    width: 1216px;
+    height: 384px;
+    }
+    }
 
     @include for-tablet {
     width: 769px;
@@ -20,6 +42,71 @@
     }
 }
 
+
+.containerTitle{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 15px;
+    margin-top: 50px;
+
+    @include for-tablet {
+    gap: 40px;
+    margin-top: 110px;
+    }
+
+    @include for-desktop {
+    flex-direction: row;
+    gap: 60px;
+    margin-top: 90px;
+    margin-left: 30px;
+    }
+}
+
+.title{
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+    color: $white-color;
+
+    @include for-tablet {
+    font-size: 80px;
+    }
+
+    @include for-desktop {
+    font-size: 90px;
+    width: 760px;
+    }
+
+    span{
+    color: rgba(255, 255, 255, 0.4);
+    }
+}
+
+.description{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.02em;
+    color: $white-color;
+
+    @include for-tablet {
+    font-size: 18px;
+    width: 255px;
+    margin-left: auto;
+    }
+
+    @include for-desktop {
+    font-size: 18px;
+    width: 255px;
+    margin-top: auto;
+    }
+}
+
+
 .text {
     font-family: var(--font-family);
     font-weight: var(--font-weight-bold);
@@ -30,6 +117,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: inherit;
+    
 
     @include for-tablet {
     font-size: 28px;
@@ -79,6 +168,7 @@
     width: 149px;
     height: 50px;
     background-color: $orange-color;
+    
 
     font-family: var(--font-family);
     font-weight: 700;
@@ -88,10 +178,14 @@
     text-transform: uppercase;
     color: $white-color;
     cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: 0.5s ease;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    
 
     &:hover {
     background-color: #f9b020;
@@ -124,20 +218,6 @@
     }
 }
 
-.nav{
-    display: none;
-    
-    @include for-desktop {
-    display: block;
-    }
-}
-
-.list{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
 
 .listItem{  
     cursor: pointer;
@@ -152,6 +232,7 @@
     line-height: 1.25;
     letter-spacing: -0.03em;
     color: $text-color;
+    color: inherit;
 
     display: flex;
     flex-direction: column;
@@ -164,5 +245,42 @@
 
 .active {
     border-color: $orange-color; 
+}
+
+.containerUser{
+    display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 5px;
+}
+
+.iconWrapper {
+    width: 50px;
+    height: 50px;
+    background-color: $ligthOrange-color; 
+    border-radius: 50%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.name{
+    display: none;
+
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: $text-color;
+    color: inherit;
+
+    @include for-tablet{
+    display: block;
+    }
+
+    @include for-desktop{
+    display: block;
+    }
 }
 

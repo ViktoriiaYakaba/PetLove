@@ -1,0 +1,431 @@
+@import '../../sass/index';
+
+.container {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    gap: 10px;
+
+    @include for-desktop {
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    @include for-desktop {
+        gap: 20px;
+    }
+
+}
+
+.containerImage {
+    border-radius: 30px;
+    width: 335px;
+    height: 280px;
+    padding: 0;
+    background-color: $orange-color;
+    position: relative;
+    overflow: hidden;
+
+    @include for-tablet {
+        width: 704px;
+        height: 364px;
+        display: flex;
+        justify-content: end;
+        align-items: end;
+        padding-left: 70px;
+    }
+
+    @include for-desktop {
+        border-radius: 60px;
+        width: 592px;
+        height: 654px;
+        display: flex;
+        justify-content: end;
+        align-items: end;
+    }
+}
+
+.containerImage::after {
+    content: '';
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 250px;
+    height: 190px;
+    background-color: #f59e0b;
+    border-radius: 30px;
+    opacity: 0.4;
+    transform: rotate(20deg);
+    z-index: 0;
+
+    @include for-tablet {
+        width: 500px;
+        height: 300px;
+        left: 100px;
+        top: 100px;
+    }
+
+    @include for-desktop {
+        width: 500px;
+        height: 1000px;
+        top: 140px;
+    }
+}
+
+.catWraper {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: end;
+    align-items: end;
+    z-index: 1;
+}
+
+.img {
+    position: relative;
+    width: 334px;
+    object-fit: cover;
+    z-index: 1;
+
+    @include for-tablet {
+        width: 384px;
+        height: 352px;
+        transform: translateX(-40px);
+    }
+
+    @include for-desktop {
+        width: 536px;
+        height: 632px;
+    }
+}
+
+.containerCard {
+    display: none;
+
+    @include for-tablet {
+        border-radius: 20px;
+        width: 294px;
+        height: 121px;
+        margin-bottom: 30px;
+        padding: 10px;
+
+        display: flex;
+        gap: 10px;
+
+        background-color: #FFF;
+    }
+
+    @include for-desktop {
+        position: absolute;
+        display: block;
+        border-radius: 20px;
+        width: 294px;
+        height: 121px;
+        bottom: 80px;
+        left: -20px;
+
+        display: flex;
+        gap: 10px;
+
+
+        padding: 10px;
+        background-color: #FFF;
+        z-index: 10;
+    }
+}
+
+.catCardContainer {
+    width: 60px;
+    height: 60px;
+    background-color: $ligthOrange-color;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.catCard {
+    width: 32px;
+    height: 32px;
+
+}
+
+.containerCardText {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 194px;
+
+}
+
+.cardName {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: $orange-color;
+}
+
+.cardBirthday {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.16667;
+    letter-spacing: -0.02em;
+    color: $span-color;
+
+    span {
+        font-family: var(--font-family);
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1.16667;
+        letter-spacing: -0.02em;
+        color: $text-color;
+    }
+}
+
+.cardText {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.16667;
+    letter-spacing: -0.02em;
+    color: rgba(38, 38, 38, 0.8);
+    width: 194px;
+}
+
+/*-------------Form--------------------*/
+
+.containerForm {
+    border-radius: 30px;
+    width: 335px;
+    height: 422px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    background-color: $white-color;
+
+    @include for-tablet {
+        border-radius: 60px;
+        width: 704px;
+        height: 560px;
+    }
+
+    @include for-desktop {
+        border-radius: 60px;
+        width: 592px;
+        height: 654px;
+    }
+}
+
+.containerTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 3px;
+
+    width: 295px;
+
+    @include for-tablet {
+        gap: 9px;
+        width: 426px;
+    }
+
+    @include for-desktop {
+        gap: 9px;
+        width: 424px;
+    }
+}
+
+.titleForm {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: $text-color;
+
+    @include for-tablet {
+        font-size: 54px;
+    }
+
+    @include for-desktop {
+        font-size: 54px;
+    }
+}
+
+.textForm {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.02em;
+    color: $text-color;
+
+    @include for-tablet {
+        font-size: 18px;
+    }
+
+    @include for-desktop {
+        font-size: 18px;
+    }
+
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    @include for-tablet {
+        gap: 16px;
+    }
+
+    @include for-desktop {
+        gap: 16px;
+    }
+}
+
+.formField {
+    position: relative;
+}
+
+.input {
+    border: 1px solid rgba(38, 38, 38, 0.15);
+    border-radius: 30px;
+    padding: 12px;
+    width: 295px;
+    height: 42px;
+    cursor: pointer;
+    transition: 0.5s ease;
+
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: $text-color;
+
+    @include for-tablet {
+        border-radius: 30px;
+        padding: 16px;
+        width: 424px;
+        height: 52px;
+    }
+
+    @include for-desktop {
+        border-radius: 30px;
+        padding: 16px;
+        width: 424px;
+        height: 52px
+    }
+
+    &:hover {
+        border: 1px solid $orange-color;
+    }
+
+    &:active {
+        border-color: $orange-color;
+    }
+
+    &::placeholder {
+        font-family: var(--font-family);
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 1.28571;
+        letter-spacing: -0.03em;
+        color: rgba(38, 38, 38, 0.5);
+    }
+}
+
+.inputError {
+    border-color: #ef2447;
+}
+
+.inputSuccess {
+    border-color: #08aa83;
+}
+
+.iconError,
+.iconSuccess {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+}
+
+.submitButton {
+    border-radius: 30px;
+    padding: 12px 99px;
+    width: 295px;
+    height: 42px;
+    cursor: pointer;
+
+    background-color: $orange-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: $white-color;
+
+    transition: 0.5s ease;
+
+    @include for-tablet {
+        padding: 16px;
+        width: 424px;
+        height: 52px;
+    }
+
+    @include for-desktop {
+        padding: 16px;
+        width: 424px;
+        height: 52px;
+    }
+
+    &:hover {
+        background-color: #f9b020;
+    }
+}
+
+.loginRedirect {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.16667;
+    letter-spacing: -0.03em;
+    color: $span-color;
+
+    span {
+        font-weight: 700;
+        text-decoration: underline;
+        text-decoration-skip-ink: none;
+        color: #f6b83d;
+    }
+
+    @include for-tablet {
+        font-size: 14px;
+    }
+
+    @include for-desktop {
+        ont-size: 14px;
+    }
+}

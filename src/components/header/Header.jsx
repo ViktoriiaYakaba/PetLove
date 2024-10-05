@@ -1,35 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import style from './Header.module.scss'; 
 import { IoMenuSharp } from "react-icons/io5";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import SvgIcon from '../../icon/SvgIcon';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'; 
 import ModalMenu from './ModalMenu';
+import ModalAproveAction from '../modalAproveAction/ModalAproveAction';
+import { logoutUser } from '../../redux/auth/operation';
+import Navigation from '../nav/Navigation';
 import clsx from 'clsx';
 
-
-const buildLinkClass = ({ isActive }) => {
-  return clsx(style.listItem, { [style.active]: isActive }); 
-};
-
 const Header = () => {
-  const [icon, setIcon] = useState('heard-mobile');
-  const [iconSize, setIconSize] = useState(44);
+  const [icon, setIcon] = useState('heard-mobile'); 
+  const [iconSize, setIconSize] = useState(44); 
   const [isMenuOpen, setIsMenuOpen] = useState(false); 
-  const isAuth = useSelector((state) => state.auth.isAuth); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const location = useLocation(); 
+  const isHome = location.pathname === "/"; 
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); 
+
+  const isAuth = useSelector((state) => state.auth.isLoggedIn);
+  const userName = useSelector((state) => state.auth.user?.name || '');
 
   useEffect(() => {
     const updateIcon = () => {
       const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-      const isTablet = window.matchMedia('(min-width: 768px) and (max-width: 1023px)').matches;
-
-      if (isDesktop || isTablet) {
-        setIcon('heart-desktop'); 
-        setIconSize(23);
+      
+      if (isHome) { 
+        setIcon(isDesktop ? 'heard-home-desk' : 'heard-home'); 
       } else {
-        setIcon('heard-mobile'); 
-        setIconSize(17);
+        setIcon(isDesktop ? 'heart-desktop' : 'heard-mobile'); 
       }
+      setIconSize(isDesktop ? 23 : 17); 
     };
 
     updateIcon(); 
@@ -37,14 +42,29 @@ const Header = () => {
     return () => {
       window.removeEventListener('resize', updateIcon); 
     };
-  }, []);
+  }, [isHome]);
 
   const toggleMenu = () => {
     setIsMenuOpen(prevState => !prevState); 
   };
 
+  const handleLogoutClick = () => {
+    setIsModalOpen(true); 
+  };
+
+  const handleConfirmLogout = () => {
+    dispatch(logoutUser()); 
+    setIsModalOpen(false); 
+    setIsMenuOpen(false); 
+    navigate('/');
+  };
+
+  const handleCancelLogout = () => {
+    setIsModalOpen(false); 
+  };
+
   return (
-    <div className={style.container}>
+    <div className={clsx(style.container, { [style.white]: isHome })}> 
       <NavLink to="/" className={style.containerLogo}>
         <p className={style.text}>
           <span>petl</span>
@@ -53,25 +73,7 @@ const Header = () => {
         </p>
       </NavLink>
 
-      <nav className={style.nav}>
-        <ul className={style.list}>
-          <li>
-            <NavLink to='/news' className={buildLinkClass}>
-              News
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to='/find-pet' className={buildLinkClass}>
-              Find pet
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to='/friends' className={buildLinkClass}>
-              Our friends
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
+      <Navigation />
 
       <div className={style.wrapper}>
         <ul className={style.listButton}>
@@ -89,20 +91,51 @@ const Header = () => {
               </li>
             </>
           ) : (
-            <li className={style.listItemRegister}>
-              <button className={style.button} type='button'>
-                <NavLink to='/logout' onClick={toggleMenu}>LOG OUT</NavLink>
-              </button>
-            </li>
+              <li className={style.buttonLogIn}>
+                <button className={style.button} type='button' onClick={handleLogoutClick}>
+                  LOG OUT
+                </button>
+              </li>
           )}
         </ul>
-  
+        {isAuth && (
+          <div className={style.containerUser}>
+            <div className={style.iconWrapper}>  
+              <SvgIcon width="24" height="24" icon="user" className={style.icon} />
+            </div>
+            <p className={style.name}>{userName}</p>
+          </div>
+        )}
+
         <button type='button' className={style.burgherBtn} onClick={toggleMenu}>
           <IoMenuSharp size={32} />
         </button>
-      </div>
 
-      <ModalMenu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} isAuth={isAuth} />
+        
+       
+      </div>
+         {isHome && (
+          <div className={style.containerTitle}>
+            <h1 className={style.title}>Take good <span>care</span> of your small pets</h1>
+            <p className={style.description}>
+              Choosing a pet for your home is a choice that is meant to enrich your life with immeasurable joy and tenderness.
+            </p>
+          </div>
+        )}
+
+      <ModalMenu 
+        isMenuOpen={isMenuOpen} 
+        toggleMenu={toggleMenu} 
+        isAuth={isAuth} 
+        onLogoutClick={handleLogoutClick} 
+      />
+
+      {isModalOpen && (
+        <ModalAproveAction 
+          onConfirm={handleConfirmLogout} 
+          onCancel={handleCancelLogout} 
+        />
+      )}
     </div>
   );
 };

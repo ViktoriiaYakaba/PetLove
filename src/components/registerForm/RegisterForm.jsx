@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field} from 'formik';
 import style from './RegisterForm.module.scss';
 import cat from '../../assets/images/cet-register-mob.png';
 import catTab from '../../assets/images/cat-register-tab.png';
@@ -8,12 +8,24 @@ import catCard from '../../assets/images/cat.png';
 import { validationSchemaRegister } from '../../helpers/validation';
 import { Link } from 'react-router-dom';
 import SvgIcon from '../../icon/SvgIcon';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../../redux/auth/operation';
+
+
+
 
 const RegisterForm = () => {
+  const dispatch = useDispatch();
 
-  const handleSubmit = (values) => {
-    console.log(values); 
-  };
+
+  const handleSubmit = (value, { resetForm }) => {
+    dispatch(registerUser);
+    resetForm();
+    console.log(registerUser)
+}
+
+
+
 
   return (
     <div className={style.container}>

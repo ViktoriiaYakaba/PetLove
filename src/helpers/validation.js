@@ -13,3 +13,12 @@ export const validationSchemaRegister = Yup.object({
       .oneOf([Yup.ref('password'), null],)
       .required(),
   });
+
+  export const validationSchemaLogin = Yup.object({
+  email: Yup.string()
+    .email() 
+    .required(), 
+  password: Yup.string()
+    .min(6) 
+    .required(), 
+});

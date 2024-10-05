@@ -1,0 +1,62 @@
+@import '../../sass/index';
+
+
+.nav {
+    display: none;
+
+    &.white {
+    color: $white-color; 
+    border-color: $ligthOrange-color;
+
+    .listItem{
+    color: $white-color;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    &:hover{
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    }
+    }
+
+    @include for-desktop {
+    display: block;
+    }
+}
+
+.list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.listItem {
+    cursor: pointer;
+    border: 1px solid rgba(38, 38, 38, 0.15);
+    transition: 0.5s ease;
+    border-radius: 30px;
+    padding: 15px;
+    height: 50px;
+
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: $text-color;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+    border-color: $orange-color;
+
+    }
+}
+
+.active {
+border-color: $orange-color;
+}
+
+

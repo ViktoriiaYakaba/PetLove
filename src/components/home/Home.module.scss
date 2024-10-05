@@ -1,0 +1,27 @@
+@import '../../sass/index';
+
+.containerWrapper{
+    width: 335px;
+    height: 402px;
+
+    @include for-tablet {
+    width: 704px;
+    height: 496px;
+    }
+
+    @include for-desktop {
+    width: 1216px;
+    height: 384px;
+    }
+}
+.img{
+    border-radius: 30px;
+
+    @include for-tablet {
+    border-radius: 60px;
+    }
+    
+    @include for-desktop {
+    border-radius: 60px;
+    }
+}
