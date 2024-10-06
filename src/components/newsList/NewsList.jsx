@@ -1,4 +1,4 @@
-import React, from 'react';
+import React from 'react';
 import NewsItem from '../newsItem/NewsItem';
 import style from './NewsList.module.scss';
 

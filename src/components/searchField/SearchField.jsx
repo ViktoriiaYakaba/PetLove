@@ -6,8 +6,8 @@ const SearchField = ({ setSearchWord }) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearchSubmit = (e) => {
-        e.preventDefault();
-        setSearchWord(searchTerm);
+      e.preventDefault();
+      setSearchWord(searchTerm);
     };
 
     const clearSearch = () => {

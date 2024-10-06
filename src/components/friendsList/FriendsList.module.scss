@@ -1,0 +1,28 @@
+@import '../../sass/index';
+
+.friendsList{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 375px;
+
+    @include for-tablet{
+    width: 768px;
+    flex-direction: row;
+    justify-content: start;
+    gap: 20px;
+    }
+
+    @include for-desktop{
+    width: 1280px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 28px;
+    }
+}
+
+
+

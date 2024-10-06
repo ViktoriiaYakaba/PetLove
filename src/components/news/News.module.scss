@@ -36,3 +36,28 @@
     width: 1153px;
     }
 }
+
+.noResultsMessage{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: $text-color;
+    width: 335px;
+    padding: 10px;
+
+    span{
+    color: $orange-color;
+    }
+
+    @include for-tablet{
+    width: 760px;
+    padding: 30px;
+    }
+
+    @include for-desktop{
+    width: 1200px;
+    padding: 30px;
+    }
+}

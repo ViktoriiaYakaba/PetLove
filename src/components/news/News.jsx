@@ -16,30 +16,39 @@ const News = () => {
     const newsError = useSelector(selectIsErrorNews);
     const newsList = useSelector(selectNews);
     const dispatch = useDispatch();
-    
-    useEffect(() => {
-    setPage(1)
-  }, [searchWord, setPage]);
-    useEffect(() => {
-      if(!newsError) dispatch(fetchNews({page,keyword:searchWord}))
-    }, [dispatch, searchWord, page, newsError]);
-    
-     if(isLoadingNews) return <div>Loading...</div>
 
+    useEffect(() => {
+        setPage(1);
+    }, [searchWord]);
+
+    useEffect(() => {
+        if (!newsError) {
+            dispatch(fetchNews({ page, keyword: searchWord }));
+        }
+    }, [dispatch, searchWord, page, newsError]);
+
+    if (isLoadingNews) return <div>Loading...</div>;
+
+    const noResultsMessage = searchWord && newsList.length === 0;
 
     return (
         <div className={style.container}>
             <div className={style.containerTitle}>
                 <Title />
-                <SearchField   setSearchWord={setSearchWord} />
+                <SearchField setSearchWord={setSearchWord} />
             </div>
             <div className={style.containerList}>
-                <NewsList newsList={newsList} />
+                {noResultsMessage ? (
+                    <div className={style.noResultsMessage}>
+                        No results found for '<span> {searchWord} </span>'. Please try a different search term.
+                    </div>
+                ) : (
+                    <NewsList newsList={newsList} />
+                )}
             </div>
-            <Pagination  setPage={setPage} page={page} lastPage={lastPage}/>
+            <Pagination setPage={setPage} page={page} lastPage={lastPage} />
         </div>
     );
-}
+};
 
 export default News;
-

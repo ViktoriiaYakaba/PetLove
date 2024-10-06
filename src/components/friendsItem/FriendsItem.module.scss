@@ -1,0 +1,90 @@
+@import '../../sass/index';
+
+.container{
+    border-radius: 15px;
+    width: 335px;
+    height: 184px;
+    padding: 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+
+    background-color: $white-color;
+
+    @include for-tablet{
+    width: 342px;
+    height: 196px;
+    }
+}
+
+.img{
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+}
+
+.containerContent{
+    display: flex;
+    flex-direction: column;
+}
+
+.workFromTo{
+    border-radius: 30px;
+    padding: 8px;
+    width: 90px;
+    height: 32px;
+
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    background-color: $ligthOrange-color;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.day{
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.33333;
+    letter-spacing: -0.02em;
+    color: $orange-color;
+}
+
+.title{
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.04em;
+    color: $text-color;
+    margin-bottom: 15px;
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 8px;
+    width: 200px;
+}
+
+.listItem{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.02em;
+    color: $text-color;
+
+    span {
+    color: rgba(38, 38, 38, 0.5);
+    }
+}
+
+
