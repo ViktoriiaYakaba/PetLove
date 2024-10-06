@@ -31,7 +31,7 @@ const News = () => {
         <div className={style.container}>
             <div className={style.containerTitle}>
                 <Title />
-                <SearchField  isNews={true} setSearchWord={setSearchWord} />
+                <SearchField   setSearchWord={setSearchWord} />
             </div>
             <div className={style.containerList}>
                 <NewsList newsList={newsList} />

@@ -1,87 +1,97 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styles from './Pagination.module.scss'; // Стилі для вашої пагінації
+import style from './Pagination.module.scss';
+import clsx from 'clsx';
+import SvgIcon from '../../icon/SvgIcon';
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const handleFirstPage = () => {
-        if (currentPage > 1) {
-            onPageChange(1);
+const Pagination = ({ setPage, page, lastPage }) => {
+    const handleChangePage = (newPage) => {
+        if (newPage > 0 && newPage <= lastPage) {
+            setPage(newPage);
         }
     };
 
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            onPageChange(currentPage - 1);
-        }
-    };
-
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            onPageChange(currentPage + 1);
-        }
-    };
-
-    const handleLastPage = () => {
-        if (currentPage < totalPages) {
-            onPageChange(totalPages);
-        }
-    };
+    if (lastPage < 2) return null;
 
     const renderPageNumbers = () => {
-        if (totalPages <= 1) return null; // Сховати пагінацію, якщо одна сторінка
+        const pageNumbers = [];
+        let start = Math.max(2, page - 1); 
+        let end = Math.min(lastPage - 1, page + 1);
 
-        const visiblePages = [];
-        if (currentPage > 3) {
-            visiblePages.push(1);
-            if (currentPage > 4) visiblePages.push('...');
+        if (page > 2) {
+            pageNumbers.push('...');
+        } else {
+            pageNumbers.push(1); 
         }
 
-        for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
-            visiblePages.push(i);
+
+        for (let i = start; i <= end; i++) {
+            pageNumbers.push(i);
         }
 
-        if (currentPage < totalPages - 2) {
-            if (currentPage < totalPages - 3) visiblePages.push('...');
-            visiblePages.push(totalPages);
+        if (end < lastPage - 1) {
+            pageNumbers.push('...');
         }
+        
 
-        return visiblePages.map((page, index) => (
+        return pageNumbers.map((number, index) => (
             <button
                 key={index}
-                className={`${styles.pageButton} ${currentPage === page ? styles.active : ''}`}
-                onClick={() => typeof page === 'number' && onPageChange(page)}
-                disabled={page === '...'}
+                className={clsx(style.pageButton, {
+                    [style.active]: number === page, 
+                })}
+                onClick={() => handleChangePage(number)}
+                disabled={number === '...'} 
             >
-                {page}
+                {number}
             </button>
         ));
     };
 
     return (
-        <div className={styles.pagination}>
-            <button onClick={handleFirstPage} disabled={currentPage === 1}>
-                &lt;&lt;
-            </button>
-            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-                &lt;
-            </button>
+        <div className={style.container}>
+            <div className={style.containerComponent}>
+                <button
+                    onClick={() => handleChangePage(1)}
+                    disabled={page === 1}
+                    className={style.navigationButton}
+                >
+                    <div className={style.svgWrapper}>
+                        <SvgIcon icon="fi-rr-angle-small-left-dopp" width="20" height="20" className={style.icon} />
+                        <SvgIcon icon="fi-rr-angle-small-left-dopp" width="20" height="20" className={style.icon} />
+                    </div>
+                </button>
 
-            {renderPageNumbers()}
+            
+                <button
+                    onClick={() => handleChangePage(page - 1)}
+                    disabled={page === 1}
+                    className={style.navigationButton}
+                >
+                    <SvgIcon icon="fi-rr-angle-small-left-dopp" width="20" height="20" />
+                </button>
 
-            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-                &gt;
-            </button>
-            <button onClick={handleLastPage} disabled={currentPage === totalPages}>
-                &gt;&gt;
-            </button>
+                {renderPageNumbers()}
+                <button
+                    onClick={() => handleChangePage(page + 1)}
+                    disabled={page === lastPage}
+                    className={style.navigationButton}
+                >
+                    <SvgIcon icon="fi-rr-angle-small-rigth-dopp" width="20" height="20"/>
+                </button>
+
+                <button
+                    onClick={() => handleChangePage(lastPage)}
+                    disabled={page === lastPage}
+                    className={style.navigationButton}
+                >
+                    <div className={style.svgWrapper}>
+                        <SvgIcon icon="fi-rr-angle-small-rigth-dopp" width="20" height="20" className={style.icon}  />
+                        <SvgIcon icon="fi-rr-angle-small-rigth-dopp" width="20" height="20" className={style.icon}  />
+                    </div>
+                </button>
+            </div>
         </div>
     );
-};
-
-Pagination.propTypes = {
-    currentPage: PropTypes.number.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    onPageChange: PropTypes.func.isRequired,
 };
 
 export default Pagination;

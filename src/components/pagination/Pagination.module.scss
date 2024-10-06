@@ -1,0 +1,127 @@
+@import '../../sass/index';
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    @include for-desktop{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    }
+}
+
+.containerComponent {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+
+    @include for-tablet{
+    gap: 5px;
+    }
+
+    @include for-desktop{
+    gap: 6px;
+    }
+}
+
+.navigationButton {
+    border-radius: 100%;
+    border: 1px solid rgba(38, 38, 38, 0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 40px;
+    height: 40px;
+    background-color: $white-color;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+
+    @include for-tablet {
+        width: 44px;
+        height: 44px;
+    }
+    
+    @include for-desktop {
+        width: 44px;
+        height: 44px;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+        background-color: $white-color;
+    }
+}
+
+.svgWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+
+   
+}
+.icon {
+    fill: currentColor;
+
+    &:nth-child(2) {
+    transform: translateX(-30%);
+    }
+
+    &:nth-child(1) {
+    transform: translateX(30%);
+    }
+
+}
+
+
+
+
+.pageButton {
+    border: 1px solid rgba(38, 38, 38, 0.5);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    background-color: $white-color;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    @include for-tablet{
+    width: 44px;
+    height: 44px;
+    }
+
+    @include for-desktop{
+    width: 44px;
+    height: 44px;
+    }
+
+    &:hover {
+        border-color: $orange-color;
+        color: $text-color;
+    }
+
+    &.active {
+        background-color: $orange-color;
+        color: $white-color;
+        border-color: $orange-color;
+    }
+}
+
+.pageButton[disabled] {
+    cursor: default;
+    pointer-events: none;
+    background-color: $white-color;
+}
