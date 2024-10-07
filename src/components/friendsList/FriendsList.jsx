@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import FriendsItem from '../friendsItem/FriendsItem'; // Make sure this component exists
-import { fetchFriends } from '../../redux/friends/operation'; // Adjust path if necessary
-import { selectFriends, selectIsLoadingFriends, selectIsErrorFriends } from '../../redux/friends/selectors'; // Ensure selectors are defined
+import FriendsItem from '../friendsItem/FriendsItem'; 
+import { fetchFriends } from '../../redux/friends/operation'; 
+import { selectFriends, selectIsLoadingFriends, selectIsErrorFriends } from '../../redux/friends/selectors';
 import style from './FriendsList.module.scss';
 
 const FriendsList = () => {

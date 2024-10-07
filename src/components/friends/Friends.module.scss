@@ -1,0 +1,34 @@
+@import '../../sass/index';
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+
+    @include for-tablet {
+    gap: 30px;
+    }
+
+    @include for-desktop {
+    width: 1153px;
+    gap: 30px;
+    }
+}
+
+.containerTitle{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 335px;
+
+    @include for-tablet {
+    }
+
+    @include for-desktop {
+    width: 1153px;
+    }
+}

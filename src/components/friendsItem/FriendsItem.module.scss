@@ -17,12 +17,30 @@
     width: 342px;
     height: 196px;
     }
+
+    @include for-desktop{
+    width: 371px;
+    height: 196px;
+    gap: 28px;
+    }
 }
 
 .img{
     border-radius: 100%;
     width: 80px;
     height: 80px;
+
+    @include for-tablet {
+    width: 90px;
+    height: 90px;
+    }
+
+    @include for-desktop {
+    width: 90px;
+    height: 90px;
+    }
+
+
 }
 
 .containerContent{
@@ -45,6 +63,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @include for-tablet {
+    top: 15px;
+    right: 15px;
+    padding: 8px;
+    width: 102px;
+    height: 34px;
+
+    }
+
+    @include for-desktop {
+    top: 15px;
+    right: 15px;
+    padding: 8px;
+    width: 102px;
+    height: 34px;
+    }
 }
 
 .day{
@@ -53,6 +88,14 @@
     line-height: 1.33333;
     letter-spacing: -0.02em;
     color: $orange-color;
+
+    @include for-tablet {
+    font-size: 14px;
+    }
+
+    @include for-desktop {
+    font-size: 14px;
+    }
 }
 
 .title{
@@ -63,6 +106,14 @@
     letter-spacing: -0.04em;
     color: $text-color;
     margin-bottom: 15px;
+
+    @include for-tablet {
+    font-size: 20px;
+    }
+
+    @include for-desktop {
+    font-size: 20px;
+    }
 }
 
 .list{
@@ -72,6 +123,12 @@
     align-items: start;
     gap: 8px;
     width: 200px;
+
+    @include for-tablet {
+    width: 196px;
+    height: 70px;
+    }
+
 }
 
 .listItem{
@@ -81,6 +138,16 @@
     line-height: 1.28571;
     letter-spacing: -0.02em;
     color: $text-color;
+
+    &:nth-child(2){
+    display: inline-block;
+    max-width: 200px; 
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+    text-decoration: none; 
+    color: inherit;
+    }
 
     span {
     color: rgba(38, 38, 38, 0.5);
