@@ -1,0 +1,181 @@
+@import '../../sass/index';
+
+.container {
+    border-radius: 16px;
+    padding: 32px;
+    width: 335px;
+    height: 430px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+
+    background-color: $white-color;
+  
+    @include for-tablet {
+    width: 342px;
+    height: 444px;
+    }
+
+    @include for-desktop {
+    width: 363px;
+    height: 444px;
+    }
+}
+
+.img{
+    border-radius: 16px;
+    width: 287px;
+    height: 178px;
+    object-fit: cover;
+
+    @include for-tablet {
+    width: 294px;
+    height: 178px; 
+    }
+
+    @include for-desktop {
+    width: 315px;
+    height: 178px;
+    }
+}
+
+.containerTitle{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title{
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.33333;
+    color: $text-color;
+
+    @include for-tablet {
+    font-size: 18px;
+    }
+
+    @include for-desktop {
+    font-size: 18px;
+    }
+}
+
+.rating {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.33333;
+    color: $text-color;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+}
+
+.containerInformation{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.list{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 285px;
+}
+
+
+
+.textList{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.16667;
+    letter-spacing: -0.02em;
+    color: $text-color;
+    
+
+    span{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: rgba(38, 38, 38, 0.5);
+    }
+}
+
+.comment{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.02em;
+    color: $text-color;
+}
+
+.containerButton{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 25px;
+}
+.btnLearn{
+    border-radius: 30px;
+    padding: 14px;
+    width: 231px;
+    height: 48px;
+
+    display: flex;
+    justify-content: center;
+
+    background: $orange-color;
+
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: $white-color;
+    transition: 0.5s ease;
+
+    @include for-tablet {
+    width: 236px;
+    }
+
+    @include for-desktop {
+    width: 257px;
+    }
+
+    &:hover{
+    background: #f9b020;
+    }
+}
+.btnHeard{
+    border-radius: 30px;
+    padding: 15px;
+    width: 48px;
+    height: 48px;
+    transition: 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+
+    background: $ligthOrange-color;
+
+    &:hover{
+    background: #fbe7c1;
+    }
+}

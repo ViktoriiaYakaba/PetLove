@@ -11,7 +11,7 @@ const Title = () => {
     case '/news':
       title = 'News';
       break;
-    case '/find-pet':
+    case '/notices':
       title = 'Find your favorite pet'; 
       break;
     case '/friends':

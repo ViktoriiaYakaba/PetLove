@@ -21,6 +21,7 @@
     border-radius: 15px;
     width: 335px;
     height: 226px;
+    object-fit: cover;
 
     @include for-tablet {
         width: 340px;

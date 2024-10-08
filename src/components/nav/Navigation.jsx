@@ -19,7 +19,7 @@ const Navigation = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to='/find-pet' className={buildLinkClass}>
+            <NavLink to='/notices' className={buildLinkClass}>
               Find pet
             </NavLink>
           </li>

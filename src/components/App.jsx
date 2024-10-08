@@ -12,7 +12,7 @@ const NewsPage = lazy(() => import('../pages/NewsPage'));
 const LoginPage = lazy(() => import('../pages/LogIn'));
 const RegisterPage = lazy(() => import('../pages/Register'));
 const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));
-const NoticesPage = lazy(() => import('../pages/Notices')); 
+const NoticesPage = lazy(() => import('../pages/NoticesPage')); 
 const AddPetPage = lazy(() => import('../pages/AddPet'));
 const ProfilePage = lazy(() => import('../pages/Profile'));
 const WiewesPage = lazy(() => import('../pages/Viewe'));

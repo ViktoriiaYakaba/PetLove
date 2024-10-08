@@ -37,7 +37,7 @@ const ModalMenu = ({ isMenuOpen, toggleMenu, isAuth, onLogoutClick }) => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to='/find-pet' className={buildLinkClass} onClick={toggleMenu}>
+                <NavLink to='/notices' className={buildLinkClass} onClick={toggleMenu}>
                   Find pet
                 </NavLink>
               </li>
