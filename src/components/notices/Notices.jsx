@@ -25,23 +25,29 @@ const Notices = () => {
     const [sex, setSex] = useState("");
     const [species, setSpecies] = useState('');
     const [locationId, setLocationId] = useState(null);
-    const [searchWord, setSearchWord] = useState("");
-    const [sortWord, setSortWord] = useState("popular");
+    const [sortWord, setSortWord] = useState('popular');
 
     useEffect(() => {
-        dispatch(fetchAllNotices({ page, keyword: searchWord, category, sex, species, locationId }));
-    }, [dispatch, searchWord, page, category, sex, species, locationId]);
+        dispatch(fetchAllNotices({ 
+            page, 
+            keyword: searchTerm, 
+            category, 
+            sex, 
+            species, 
+            locationId, 
+            byPopularity: sortWord 
+        }));
+    }, [dispatch, searchTerm, page, category, sex, species, locationId, sortWord]);
 
     useEffect(() => {
         setPage(1);
-    }, [searchWord, category, sex, species]);
+    }, [searchTerm, category, sex, species, sortWord]); 
 
     if (isLoading) return <div>Loading...</div>;
     if (noticesError) return <div>Error fetching notices: {noticesError}</div>;
 
-
     const handleSearchSubmit = (keyword) => {
-        setSearchWord(keyword);
+        setSearchTerm(keyword);
     };
 
     const handleCategoryChange = (selectedCategory) => {
@@ -56,12 +62,11 @@ const Notices = () => {
         setSpecies(selectedSpecies);
     };
 
-
     const handleLocationChange = (selectedLocation) => {
         setLocationId(selectedLocation);
     };
 
-     const handleSortChange = (selectedSortWord) => {
+    const handleSortChange = (selectedSortWord) => {
         setSortWord(selectedSortWord); 
     };
 
@@ -73,13 +78,13 @@ const Notices = () => {
             <div className={style.containerFilters}>
                 <NoticesFilters
                     searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
+                    setSearchTerm={setSearchTerm} 
                     onSearchSubmit={handleSearchSubmit}
                     onCategoryChange={handleCategoryChange}
                     onPetSexChange={handlePetSexChange}
                     onSpeciesChange={handleSpeciesChange}
                     onLocationChange={handleLocationChange}
-                    onSortChange={handleSortChange}
+                    onSortChange={handleSortChange} 
                 />
             </div>
             <div>

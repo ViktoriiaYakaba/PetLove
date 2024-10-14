@@ -21,7 +21,7 @@ const NoticesFilters = ({
     onPetSexChange,
     onSpeciesChange,
     onLocationChange,
-    
+    onSortChange,
 }) => {
     const dispatch = useDispatch();
     const categories = useSelector(selectCategories) || [];
@@ -37,7 +37,7 @@ const NoticesFilters = ({
     const [sex, setSex] = useState('');
     const [currentCity, setCurrentCity] = useState('');
     const [inputValue, setInputValue] = useState('');
-    const [sortOption, setSortOption] = useState('popularity');
+    const [sortOption, setSortOption] = useState('popular');
 
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
@@ -48,7 +48,9 @@ const NoticesFilters = ({
         if (!cities.length) dispatch(fetchCities());
     }, [dispatch, categories.length, petSex.length, petTypes.length, cities.length]);
 
-    useEffect(() => {}, [sortWord]);
+    useEffect(() => {
+        setSortOption(sortWord);
+    }, [sortWord]);
 
     const handleSelect = (value, callback) => {
         const selectedValue = value === 'Show All' ? '' : value;
@@ -80,26 +82,33 @@ const NoticesFilters = ({
     }, [cities, inputValue]);
 
     const handleSelectCity = (city) => {
-        setCurrentCity(city.cityEn); 
-        setInputValue('');            
-        onLocationChange(city._id);    
+        setCurrentCity(city.cityEn);
+        setInputValue('');
+        onLocationChange(city._id);
     };
 
-    const handleSelectCategory = (value) => handleSelect('category', value, (val) => {
+    const handleSelectCategory = (value) => handleSelect(value, (val) => {
         setCategory(val);
         onCategoryChange(val);
     });
 
-    const handleSelectGender = (value) => handleSelect('gender', value, (val) => {
+    const handleSelectGender = (value) => handleSelect(value, (val) => {
         setSex(val);
         onPetSexChange(val);
         if (val !== 'Show All') dispatch(changeSexValue(val));
     });
 
-    const handleSelectType = (value) => handleSelect('type', value, (val) => {
+    const handleSelectType = (value) => handleSelect(value, (val) => {
         setCategory(val);
         onSpeciesChange(val);
     });
+
+    const handleSortChange = (value) => {
+        console.log("Sorting by:", value); 
+        setSortOption(value);
+        onSortChange(value);
+        dispatch(changeSortWord(value));
+    };
 
     return (
         <div className={style.container}>
@@ -127,6 +136,7 @@ const NoticesFilters = ({
                         </form>
                     </li>
 
+    
                     <li className={style.listItem}>
                         <div className={style.filterBox}>
                             <div className={style.inputBoxStyled} onClick={() => setIsOpenCategories(!isOpenCategories)}>
@@ -152,6 +162,7 @@ const NoticesFilters = ({
                         </div>
                     </li>
 
+             
                     <li className={style.listItem}>
                         <div className={style.filterBox}>
                             <div className={style.inputBoxStyled} onClick={() => setIsOpenGenders(!isOpenGenders)}>
@@ -177,6 +188,7 @@ const NoticesFilters = ({
                         </div>
                     </li>
 
+              
                     <li className={style.listItem}>
                         <div className={style.filterBoxType}>
                             <div className={style.inputBoxStyledType} onClick={() => setIsOpenTypes(!isOpenTypes)}>
@@ -202,6 +214,7 @@ const NoticesFilters = ({
                         </div>
                     </li>
 
+              
                     <li className={style.listItem}>
                         <form className={style.searchFormLocation} onSubmit={handleLocationSubmit}>
                             <div className={style.inputWrapperLocation}>
@@ -210,7 +223,7 @@ const NoticesFilters = ({
                                     value={currentCity}
                                     onChange={(e) => {
                                         setCurrentCity(e.target.value);
-                                        setInputValue(e.target.value); 
+                                        setInputValue(e.target.value);
                                     }}
                                     placeholder="Location"
                                     className={style.searchInputLocation}
@@ -240,46 +253,44 @@ const NoticesFilters = ({
                     </li>
                 </ul>
             </div>
+            
             <div className={style.containerRadio}>
-                <Formik
-                    initialValues={{ sortOption: '' }}
-                    onSubmit={(values) => {
-                        console.log('Selected option:', values.sortOption);
-                        setSortOption(values.sortOption); 
-                    }}
+                 <Formik
+                    initialValues={{ sortOption }}
+                    enableReinitialize
+                    onSubmit={() => {}}
                 >
-                    {({ values,  setFieldValue }) => ( 
+                    {({ values, setFieldValue }) => (
                         <Form className={style.radioForm}>
                             <div className={style.radioButtons}>
-                                <label className={buildLinkClass('sortOption', values, 'popular')}>
-                                    <Field type="radio" name="sortOption" value="popular" />
-                                    <span className={style.radioLabel}>Popular
-                                        <button type="button" className={style.buttonTogle} onClick={() => setFieldValue('sortOption', '')}>
-                                    <SvgIcon icon='cancel' width="18" height="18" />
-                                </button></span>
-                                    
-                                </label>
-                                <label className={buildLinkClass('sortOption', values, 'unpopular')}>
-                                    <Field type="radio" name="sortOption" value="unpopular" />
-                                    <span className={style.radioLabel}>Unpopular
-                                        <button type="button" className={style.buttonTogle} onClick={() => setFieldValue('sortOption', '')}>
-                                    <SvgIcon icon='cancel' width="18" height="18" />
-                                </button></span>
-                                </label>
-                                <label className={buildLinkClass('sortOption', values, 'cheap')}>
-                                    <Field type="radio" name="sortOption" value="cheap" />
-                                    <span className={style.radioLabel}>Cheap
-                                        <button type="button" className={style.buttonTogle} onClick={() => setFieldValue('sortOption', '')}>
-                                    <SvgIcon icon='cancel' width="18" height="18" />
-                                </button></span>
-                                </label>
-                                <label className={buildLinkClass('sortOption', values, 'expensive')}>
-                                    <Field type="radio" name="sortOption" value="expensive" />
-                                    <span className={style.radioLabel}>Expensive
-                                        <button type="button" className={style.buttonTogle} onClick={() => setFieldValue('sortOption', '')}>
-                                    <SvgIcon icon='cancel' width="18" height="18" />
-                                </button></span>
-                                </label>
+                                {['popular', 'unpopular', 'cheap', 'expensive'].map((option) => (
+                                    <label className={buildLinkClass('sortOption', values, option)} key={option}>
+                                        <Field 
+                                            type="radio" 
+                                            name="sortOption" 
+                                            value={option} 
+                                            onChange={() => {
+                                                setFieldValue("sortOption", option);
+                                                handleSortChange(option); 
+                                            }} 
+                                        />
+                                        <span className={style.radioLabel}>
+                                            {option}
+                                            {values.sortOption === option && (
+                                                <button 
+                                                    type="button" 
+                                                    className={style.buttonTogle} 
+                                                    onClick={() => {
+                                                        setFieldValue('sortOption', ''); 
+                                                        handleSortChange(''); 
+                                                    }}
+                                                >
+                                                    <SvgIcon icon='cancel' width="18" height="18" />
+                                                </button>
+                                            )}
+                                        </span>
+                                    </label>
+                                ))}
                             </div>
                         </Form>
                     )}
