@@ -15,9 +15,8 @@ const initialState = {
     notices: [],
     favIds: [],
     lastPage: null,
-
     categories: null,
-    petSex: null,
+    sex: null,
     types: null,
     cities: null,
     isLoading: false,
@@ -60,7 +59,7 @@ const noticesSlice = createSlice({
             .addCase(fetchPetSex.fulfilled, (state, actions) => {
                 state.isLoading = false;
                 state.error = null;
-                state.petSex = actions.payload;
+                state.sex = actions.payload;
             })
             .addCase(fetchPetSex.rejected, (state, actions) => {
                 state.isLoading = false;

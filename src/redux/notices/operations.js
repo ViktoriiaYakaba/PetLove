@@ -5,11 +5,12 @@ axios.defaults.baseURL = "https://petlove.b.goit.study/api";
 
 export const fetchAllNotices = createAsyncThunk(
   "notices/fetchAllNotices",
-  async ({ keyword, category, species, limit, locationId, firstNotPopular, page}, thunkAPI) => {
+  async ({ keyword, category, species, limit, locationId, firstNotPopular, page, sex }, thunkAPI) => {
     try {
       const response = await axios.get(`/notices`, {
           params: {
-        page:page,
+          page: page,
+          sex: sex === "all" ? "" : sex,
           keyword: keyword || "",
           category: category === "all" ? "" : category,
           species: species === "all" ? "" : species,
@@ -24,6 +25,47 @@ export const fetchAllNotices = createAsyncThunk(
     }
   }
 );
+
+export const fetchCategories = createAsyncThunk(
+  "notices/fetchCategories",
+  async (_, thunkAPI) => {
+    try {
+      const resp = await axios.get("/notices/categories");
+      return resp.data || []; 
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const fetchPetSex = createAsyncThunk(
+  "notices/fetchPetSex",
+  async (_, thunkAPI) => {
+    try {
+      const resp = await axios.get("/notices/sex");
+      return resp.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "An error occurred");
+    }
+  }
+);
+
+export const fetchPetType = createAsyncThunk(
+  "notices/fetchPetType",
+  async (_, thunkAPI) => {
+    try {
+      const resp = await axios.get("/notices/species");
+      return resp.data;
+    } catch (error) {
+      console.log(error);
+      thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+
 
 
 
@@ -49,45 +91,6 @@ export const fetchNotices = createAsyncThunk(
   }
 );
 
-
-export const fetchCategories = createAsyncThunk(
-  "notices/fetchCategories",
-  async (_, thunkAPI) => {
-    try {
-      const resp = await axios.get("/notices/categories");
-      return resp.data;
-    } catch (error) {
-      console.log(error);
-      thunkAPI.rejectWithValue(error.response.data.message);
-    }
-  }
-);
-
-export const fetchPetSex = createAsyncThunk(
-  "notices/fetchPetSex",
-  async (_, thunkAPI) => {
-    try {
-      const resp = await axios.get("/notices/sex");
-      return resp.data;
-    } catch (error) {
-      console.log(error);
-      thunkAPI.rejectWithValue(error.response.data.message);
-    }
-  }
-);
-
-export const fetchPetType = createAsyncThunk(
-  "notices/fetchPetType",
-  async (_, thunkAPI) => {
-    try {
-      const resp = await axios.get("/notices/species");
-      return resp.data;
-    } catch (error) {
-      console.log(error);
-      thunkAPI.rejectWithValue(error.response.data.message);
-    }
-  }
-);
 
 export const fetchCities = createAsyncThunk(
   "notices/fetchCities",

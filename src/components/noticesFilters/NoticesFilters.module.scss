@@ -24,6 +24,13 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    border-bottom: 1px solid  rgba(38, 38, 38, 0.1);
+    padding-bottom: 15px;
+
+    @include for-desktop{
+        padding-bottom: 20px;
+        justify-content: space-between;
+    }
 }
 
 .inputWrapper {
@@ -200,6 +207,8 @@
     gap: 8px;
 }
 
+
+
 .inputBoxStyledType {
     background-color: $white-color;
     position: relative;
@@ -295,53 +304,157 @@
 }
 
 
-.radioForm {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.radioButtons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.radioButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.searchFormLocation {
+    border: 1px solid transparent;
+    background-color: $white-color;
+    transition: 0.5s ease;
+    margin-bottom: 5px;
     border-radius: 30px;
-    padding: 10px;
+    padding: 12px;
+    width: 295px;
+    height: 42px;
+
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3px;
+
+    &:hover,
+    &:active {
+        border-color: $orange-color;
+    }
+
+    @include for-tablet {
+        width: 265px;
+        height: 48px;
+    }
+
+    @include for-desktop {
+        width: 227px;
+        height: 48px;
+    }
+}
+
+.searchInputLocation {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: $text-color;
+
+    &::placeholder {
+        font-family: var(--font-family);
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.25;
+        letter-spacing: -0.03em;
+        color: rgba(38, 38, 38, 0.5);
+    }
+}
+
+.searchButtonLocation {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.clearButtonLocation {
+    position: absolute;
+    right: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdownListActiveLocation {
+    padding: 8px;
+    position: absolute;
+    top: auto;
+    left: auto;
+    background: $white-color;
+    z-index: 1000;
+    border-radius: 15px;
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 295px;
+    height: 94px;
+
+    @include for-tablet{
+    width: 265px;
+    }
+
+    @include for-desktop{
+    width: 227px;
+    }
+}
+
+.containerRadio{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: center;
+    margin-top: 15px;
+    gap: 10px;
+
+    @include for-desktop{
+    margin-top: 20px;
+    }
+}
+
+.radioButtons{
+   display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+}
+
+.radioButton{
+    border-radius: 30px;
+    padding: 12px;
+    height: 42px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     background-color: $white-color;
 
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 1.28571;
-        letter-spacing: -0.03em;
-        color: $text-color;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.03em;
+    color: $text-color;
 
-    input[type='radio'] {
-        display: none; 
-    }
+    transition: 0.8s ease;
 
-    &:hover, &:active {
-        background-color: $orange-color; 
-        color: $white-color;
-    }
-
-
-    input[type='radio']:checked+.radioLabel {
-        background-color: $orange-color;
-        color: $white-color; 
-
-    }
-
-
-}
-.active{
+    &:hover{
+    color: $white-color;
     background-color: $orange-color;
-        color: $white-color;
+    }
+}
+
+.radioLabel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+}
+
+.buttonTogle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    stroke: $white-color;
+}
+
+
+.active{
+    color: $white-color;
+    background-color: $orange-color;
 }

@@ -6,27 +6,64 @@ import style from './Notices.module.scss';
 import Pagination from '../pagination/Pagination';
 import { fetchAllNotices } from '../../redux/notices/operations';
 import NoticesList from '../noticesList/NoticesList';
-import { selectLastPage, selectErrorNotices, selectNotices, selectIsLoading } from '../../redux/notices/selectors';
+import {
+    selectLastPage,
+    selectErrorNotices,
+    selectNotices,
+    selectIsLoading,
+} from '../../redux/notices/selectors';
 
 const Notices = () => {
     const dispatch = useDispatch();
     const [page, setPage] = useState(1);
     const lastPage = useSelector(selectLastPage);
-    const [searchWord, setSearchWord] = useState("");
     const noticesError = useSelector(selectErrorNotices);
     const noticesList = useSelector(selectNotices);
     const isLoading = useSelector(selectIsLoading);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [category, setCategory] = useState("");
+    const [sex, setSex] = useState("");
+    const [species, setSpecies] = useState('');
+    const [locationId, setLocationId] = useState(null);
+    const [searchWord, setSearchWord] = useState("");
+    const [sortWord, setSortWord] = useState("popular");
 
     useEffect(() => {
-        dispatch(fetchAllNotices({ page, keyword: searchWord }));
-    }, [dispatch, searchWord, page]);
+        dispatch(fetchAllNotices({ page, keyword: searchWord, category, sex, species, locationId }));
+    }, [dispatch, searchWord, page, category, sex, species, locationId]);
 
     useEffect(() => {
         setPage(1);
-    }, [searchWord]);
+    }, [searchWord, category, sex, species]);
 
     if (isLoading) return <div>Loading...</div>;
     if (noticesError) return <div>Error fetching notices: {noticesError}</div>;
+
+
+    const handleSearchSubmit = (keyword) => {
+        setSearchWord(keyword);
+    };
+
+    const handleCategoryChange = (selectedCategory) => {
+        setCategory(selectedCategory);
+    };
+
+    const handlePetSexChange = (selectedPetSex) => {
+        setSex(selectedPetSex);
+    };
+
+    const handleSpeciesChange = (selectedSpecies) => {
+        setSpecies(selectedSpecies);
+    };
+
+
+    const handleLocationChange = (selectedLocation) => {
+        setLocationId(selectedLocation);
+    };
+
+     const handleSortChange = (selectedSortWord) => {
+        setSortWord(selectedSortWord); 
+    };
 
     return (
         <div className={style.container}>
@@ -34,7 +71,16 @@ const Notices = () => {
                 <Title />
             </div>
             <div className={style.containerFilters}>
-                <NoticesFilters setSearchWord={setSearchWord} />
+                <NoticesFilters
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                    onSearchSubmit={handleSearchSubmit}
+                    onCategoryChange={handleCategoryChange}
+                    onPetSexChange={handlePetSexChange}
+                    onSpeciesChange={handleSpeciesChange}
+                    onLocationChange={handleLocationChange}
+                    onSortChange={handleSortChange}
+                />
             </div>
             <div>
                 <NoticesList notices={noticesList} />

@@ -1,103 +1,105 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import style from './NoticesFilters.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
 import SvgIcon from '../../icon/SvgIcon';
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories, fetchCities, fetchPetSex, fetchPetType } from '../../redux/notices/operations';
-import { selectCategories, selectCities, selectPetSex, selectPetTypes, selectSexValue } from '../../redux/notices/selectors';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import Select from 'react-select';
+import { selectCategories, selectCities, selectPetSex, selectPetTypes, selectSortWord } from '../../redux/notices/selectors';
+import { fetchCategories, fetchPetSex, fetchPetType, fetchCities } from '../../redux/notices/operations';
+import { changeSexValue, changeSortWord } from '../../redux/notices/slice';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
 
- const buildLinkClass = (key, values) => {
-    return clsx(style.radioButton, values[key] && style.active);
-  };
+const buildLinkClass = (key, values, value) => {
+    return clsx(style.radioButton, values[key] === value && style.active);
+};
 
-
-const NoticesFilters = () => {
+const NoticesFilters = ({
+    searchTerm,
+    setSearchTerm,
+    onSearchSubmit,
+    onCategoryChange,
+    onPetSexChange,
+    onSpeciesChange,
+    onLocationChange,
+    
+}) => {
     const dispatch = useDispatch();
-    const cities = useSelector(selectCities);
-    const gender = useSelector(selectSexValue);
+    const categories = useSelector(selectCategories) || [];
+    const petSex = useSelector(selectPetSex) || [];
+    const petTypes = useSelector(selectPetTypes) || [];
+    const cities = useSelector(selectCities) || [];
+    const sortWord = useSelector(selectSortWord);
 
-
-    const [searchTerm, setSearchTerm] = useState('');
-    const [currentCity, setCurrentCity] = useState('');
     const [isOpenCategories, setIsOpenCategories] = useState(false);
-    const [category, setCategory] = useState('');
     const [isOpenGenders, setIsOpenGenders] = useState(false);
     const [isOpenTypes, setIsOpenTypes] = useState(false);
+    const [category, setCategory] = useState('');
+    const [sex, setSex] = useState('');
+    const [currentCity, setCurrentCity] = useState('');
+    const [inputValue, setInputValue] = useState('');
     const [sortOption, setSortOption] = useState('popularity');
 
-    const categories = ["Found", "Free", "Lost", "Sell"];
-    const petSex = ["Unknown", "Female", "Male", "Multiple"];
-    const petTypes =["Dog", "Cat", "Monkey", "Bird", "Snake", "Turtle", "Lizard", "Frog", "Fish", "Ants", "Bees", "Butterfly", "Spider", "Scorpion"]
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
     useEffect(() => {
-        if (!categories) {
-            dispatch(fetchCategories());
-        }
-        if (!petSex) {
-            dispatch(fetchPetSex());
-        }
-        if (!petTypes) {
-            dispatch(fetchPetType());
-        }
-    }, [dispatch, categories, petSex, petTypes]);
+        if (!categories.length) dispatch(fetchCategories());
+        if (!petSex.length) dispatch(fetchPetSex());
+        if (!petTypes.length) dispatch(fetchPetType());
+        if (!cities.length) dispatch(fetchCities());
+    }, [dispatch, categories.length, petSex.length, petTypes.length, cities.length]);
 
-    useEffect(() => {
-        if (!cities) {
-            dispatch(fetchCities());
-        }
-    }, [dispatch, cities]);
+    useEffect(() => {}, [sortWord]);
 
-    const options = cities?.map((city) => ({
-        label: `${city.stateEn}, ${city.cityEn}`,
-        value: city._id,
-    })).filter((city) => city.label.includes(currentCity ? currentCity : "Krym"));
-
-  
-
-    const handleLocation = (e) => {
-        e.preventDefault();
-        console.log(currentCity);
-        
-    }
-    const handleSearchSubmit = (e) => {
-        e.preventDefault();
-        console.log(searchTerm);
+    const handleSelect = (value, callback) => {
+        const selectedValue = value === 'Show All' ? '' : value;
+        callback(selectedValue);
+        setIsOpenCategories(false);
+        setIsOpenGenders(false);
+        setIsOpenTypes(false);
     };
+
+    const handleSearchSubmit = useCallback((e) => {
+        e.preventDefault();
+        onSearchSubmit(searchTerm);
+    }, [onSearchSubmit, searchTerm]);
 
     const clearSearch = () => {
         setSearchTerm('');
+        onSearchSubmit('');
     };
 
-    const handleSelectCategory = (value) => {
-        if (value === 'Show All') {
-            setCategory('');
-        } else if (value !== category) {
-            setCategory(value);
-        }
-        setIsOpenCategories(false);
+    const handleLocationSubmit = useCallback((e) => {
+        e.preventDefault();
+        onLocationChange(currentCity);
+    }, [onLocationChange, currentCity]);
+
+    const filteredCities = useMemo(() => {
+        return cities.filter(city =>
+            `${city.stateEn}, ${city.cityEn}`.toLowerCase().includes(inputValue.toLowerCase())
+        );
+    }, [cities, inputValue]);
+
+    const handleSelectCity = (city) => {
+        setCurrentCity(city.cityEn); 
+        setInputValue('');            
+        onLocationChange(city._id);    
     };
 
-    const handleSelectGender = (value) => {
-        if (value === 'Show All') {
-            dispatch(changeSexValue(''));
-        } else if (value !== gender) {
-            dispatch(changeSexValue(value));
-        }
-        setIsOpenGenders(false);
-    };
+    const handleSelectCategory = (value) => handleSelect('category', value, (val) => {
+        setCategory(val);
+        onCategoryChange(val);
+    });
 
-    const handleSelectType = (value) => {
-        if (value !== category) {
-            setIsOpenTypes(false);
-            setCategory(value);
-        }
-    };
+    const handleSelectGender = (value) => handleSelect('gender', value, (val) => {
+        setSex(val);
+        onPetSexChange(val);
+        if (val !== 'Show All') dispatch(changeSexValue(val));
+    });
 
-    
-
+    const handleSelectType = (value) => handleSelect('type', value, (val) => {
+        setCategory(val);
+        onSpeciesChange(val);
+    });
 
     return (
         <div className={style.container}>
@@ -133,16 +135,16 @@ const NoticesFilters = () => {
                                     {isOpenCategories ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
                                 </button>
                                 <ul className={isOpenCategories ? style.dropdownListActive : style.dropdownListHidden}>
-                                    <li 
-                                        key="show-all" 
-                                        onClick={() => handleSelectCategory('Show All')} 
+                                    <li
+                                        key="show-all"
+                                        onClick={() => handleSelectCategory('Show All')}
                                         style={{ cursor: 'pointer', color: 'orange', fontWeight: 'bold', padding: 5 }}
                                     >
                                         Show All
                                     </li>
                                     {categories.map((cat) => (
                                         <li key={cat} onClick={() => handleSelectCategory(cat)} style={{ cursor: 'pointer', padding: 5 }}>
-                                            {cat}
+                                            {capitalize(cat)}
                                         </li>
                                     ))}
                                 </ul>
@@ -153,112 +155,136 @@ const NoticesFilters = () => {
                     <li className={style.listItem}>
                         <div className={style.filterBox}>
                             <div className={style.inputBoxStyled} onClick={() => setIsOpenGenders(!isOpenGenders)}>
-                                { "By gender"}
+                                {sex || "By gender"}
                                 <button type="button" className={style.openSelectBtn}>
                                     {isOpenGenders ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
                                 </button>
                                 <ul className={isOpenGenders ? style.dropdownListActive : style.dropdownListHidden}>
-                                    <li 
-                                        key="show-all" 
-                                        onClick={() => handleSelectGender('Show All')} 
+                                    <li
+                                        key="show-all"
+                                        onClick={() => handleSelectGender('Show All')}
                                         style={{ cursor: 'pointer', color: 'orange', fontWeight: 'bold', padding: 5 }}
                                     >
                                         Show All
                                     </li>
-                                    {petSex.map((sex) => (
-                                        <li key={sex} onClick={() => handleSelectGender(sex)} style={{ cursor: 'pointer', padding: 5 }}>
-                                            {sex}
+                                    {petSex.map((gender) => (
+                                        <li key={gender} onClick={() => handleSelectGender(gender)} style={{ cursor: 'pointer', padding: 5 }}>
+                                            {capitalize(gender)}
                                         </li>
                                     ))}
-
                                 </ul>
                             </div>
                         </div>
                     </li>
-                               <li className={style.listItem}>
-                                        <div className={style.filterBoxType}>
-                                            <div className={style.inputBoxStyledType} onClick={() => setIsOpenTypes(!isOpenTypes)}>
-                                                {"By type"} 
-                                              <button type="button" className={style.openSelectBtn}>
+
+                    <li className={style.listItem}>
+                        <div className={style.filterBoxType}>
+                            <div className={style.inputBoxStyledType} onClick={() => setIsOpenTypes(!isOpenTypes)}>
+                                {"By type"}
+                                <button type="button" className={style.openSelectBtn}>
                                     {isOpenTypes ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
-                                </button>  
+                                </button>
                                 <ul className={isOpenTypes ? style.dropdownListActiveType : style.dropdownListHiddenType}>
-                                    <li 
-                                        key="show-all" 
-                                        onClick={() => handleSelectType('Show All')} 
+                                    <li
+                                        key="show-all"
+                                        onClick={() => handleSelectType('Show All')}
                                         style={{ cursor: 'pointer', color: 'orange', fontWeight: 'bold', padding: 5 }}
                                     >
                                         Show All
                                     </li>
                                     {petTypes.map((type) => (
                                         <li key={type} onClick={() => handleSelectType(type)} style={{ cursor: 'pointer', padding: 5 }}>
-                                            {type}
+                                            {capitalize(type)}
                                         </li>
                                     ))}
-
                                 </ul>
-                                                
-                                        </div>
-                                            
-                                    </div>
+                            </div>
+                        </div>
                     </li>
-                    
+
                     <li className={style.listItem}>
-              <form className={style.searchForm} onSubmit={handleLocation}>
-                            <div className={style.inputWrapper}>
+                        <form className={style.searchFormLocation} onSubmit={handleLocationSubmit}>
+                            <div className={style.inputWrapperLocation}>
                                 <input
                                     type="text"
                                     value={currentCity}
-                                    onChange={(e) => setCurrentCity(e.target.value)}
+                                    onChange={(e) => {
+                                        setCurrentCity(e.target.value);
+                                        setInputValue(e.target.value); 
+                                    }}
                                     placeholder="Location"
-                                    className={style.searchInput}
+                                    className={style.searchInputLocation}
                                 />
                                 {currentCity && (
-                                    <button type="button" className={style.clearButton} onClick={clearSearch}>
+                                    <button type="button" className={style.clearButtonLocation} onClick={() => {
+                                        setCurrentCity('');
+                                        setInputValue('');
+                                    }}>
                                         <SvgIcon icon="x" width="20" height="20" />
                                     </button>
                                 )}
-                                <button type="submit" className={style.searchButton}>
+                                <button type="submit" className={style.searchButtonLocation}>
                                     <SvgIcon icon="search" width="20" height="20" />
                                 </button>
                             </div>
                         </form>
+                        {inputValue && filteredCities.length > 0 && (
+                            <ul className={style.dropdownListActiveLocation}>
+                                {filteredCities.map((city) => (
+                                    <li key={city.id} onClick={() => handleSelectCity(city)} style={{ cursor: 'pointer', padding: 5 }}>
+                                        {`${city.stateEn}, ${city.cityEn}`}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </li>
-                    
                 </ul>
             </div>
-            
-            <div className={style.radio}>
-   <Formik
-        initialValues={{ sortOption: '' }}
-        onSubmit={(values) => console.log('Selected option:', values.sortOption)}
-         >
-        {() => (
-    <Form className={style.radioForm}>
-                                    <div className={style.radioButtons}>
-                                        <label className={style.radioButton}>
-                                            <Field type="radio" name="sortOption" value="popularity" />
-                                            <span className={style.radioLabel}>Popularity</span>
-                                        </label>
-                                        <label className={style.radioButton}>
-                                            <Field type="radio" name="sortOption" value="unpopular" />
-                                            <span className={style.radioLabel}>Unpopular</span>
-                                        </label>
-                                        <label className={style.radioButton}>
-                                            <Field type="radio" name="sortOption" value="cheap" />
-                                            <span className={style.radioLabel}>Cheap</span>
-                                        </label>
-                                        <label className={style.radioButton}>
-                                            <Field type="radio" name="sortOption" value="expensive" />
-                                            <span className={style.radioLabel}>Expensive</span>
-                                        </label>
-                                    </div> 
-                                </Form>
-                            )}
-                        </Formik>
+            <div className={style.containerRadio}>
+                <Formik
+                    initialValues={{ sortOption: '' }}
+                    onSubmit={(values) => {
+                        console.log('Selected option:', values.sortOption);
+                        setSortOption(values.sortOption); 
+                    }}
+                >
+                    {({ values,  setFieldValue }) => ( 
+                        <Form className={style.radioForm}>
+                            <div className={style.radioButtons}>
+                                <label className={buildLinkClass('sortOption', values, 'popular')}>
+                                    <Field type="radio" name="sortOption" value="popular" />
+                                    <span className={style.radioLabel}>Popular
+                                        <button type="button" className={style.buttonTogle} onClick={() => setFieldValue('sortOption', '')}>
+                                    <SvgIcon icon='cancel' width="18" height="18" />
+                                </button></span>
+                                    
+                                </label>
+                                <label className={buildLinkClass('sortOption', values, 'unpopular')}>
+                                    <Field type="radio" name="sortOption" value="unpopular" />
+                                    <span className={style.radioLabel}>Unpopular
+                                        <button type="button" className={style.buttonTogle} onClick={() => setFieldValue('sortOption', '')}>
+                                    <SvgIcon icon='cancel' width="18" height="18" />
+                                </button></span>
+                                </label>
+                                <label className={buildLinkClass('sortOption', values, 'cheap')}>
+                                    <Field type="radio" name="sortOption" value="cheap" />
+                                    <span className={style.radioLabel}>Cheap
+                                        <button type="button" className={style.buttonTogle} onClick={() => setFieldValue('sortOption', '')}>
+                                    <SvgIcon icon='cancel' width="18" height="18" />
+                                </button></span>
+                                </label>
+                                <label className={buildLinkClass('sortOption', values, 'expensive')}>
+                                    <Field type="radio" name="sortOption" value="expensive" />
+                                    <span className={style.radioLabel}>Expensive
+                                        <button type="button" className={style.buttonTogle} onClick={() => setFieldValue('sortOption', '')}>
+                                    <SvgIcon icon='cancel' width="18" height="18" />
+                                </button></span>
+                                </label>
+                            </div>
+                        </Form>
+                    )}
+                </Formik>
             </div>
-
-            
         </div>
     );
 };

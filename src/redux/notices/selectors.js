@@ -1,7 +1,6 @@
-
 export const selectCategories = state => state.notices.categories
 
-export const selectPetSex = state => state.notices.petSex
+export const selectPetSex = state => state.notices.sex
 
 export const selectPetTypes = state => state.notices.types
 
