@@ -4,7 +4,6 @@ import {
   removeFavoriteNotice, 
   fetchAllNotices, 
   fetchCategories, 
-  fetchCities, 
   fetchNotices, 
   fetchPetSex, 
   fetchPetType, 
@@ -75,19 +74,6 @@ const noticesSlice = createSlice({
                 state.types = actions.payload;
             })
             .addCase(fetchPetType.rejected, (state, actions) => {
-                state.isLoading = false;
-                state.error = actions.payload;
-            })
-            .addCase(fetchCities.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
-            .addCase(fetchCities.fulfilled, (state, actions) => {
-                state.isLoading = false;
-                state.error = null;
-                state.cities = actions.payload;
-            })
-            .addCase(fetchCities.rejected, (state, actions) => {
                 state.isLoading = false;
                 state.error = actions.payload;
             })

@@ -91,21 +91,6 @@ export const fetchNotices = createAsyncThunk(
   }
 );
 
-
-export const fetchCities = createAsyncThunk(
-  "notices/fetchCities",
-  async (_, thunkAPI) => {
-    try {
-      const resp = await axios.get("/cities");
-      return resp.data;
-    } catch (error) {
-      console.log(error);
-      thunkAPI.rejectWithValue(error.response.data.message);
-    }
-  }
-);
-
-
 export const addFavoriteNotice = createAsyncThunk(
   "notices/addFavoriteNotice",
   async (id, thunkAPI) => {
