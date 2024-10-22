@@ -21,27 +21,27 @@ const Notices = () => {
     const noticesList = useSelector(selectNotices);
     const isLoading = useSelector(selectIsLoading);
     const [searchTerm, setSearchTerm] = useState('');
-    const [category, setCategory] = useState("");
-    const [sex, setSex] = useState("");
+    const [category, setCategory] = useState('');
+    const [sex, setSex] = useState('');
     const [species, setSpecies] = useState('');
     const [locationId, setLocationId] = useState(null);
     const [sortWord, setSortWord] = useState('popular');
 
     useEffect(() => {
-        dispatch(fetchAllNotices({ 
-            page, 
-            keyword: searchTerm, 
-            category, 
-            sex, 
-            species, 
-            locationId, 
-            byPopularity: sortWord 
+        dispatch(fetchAllNotices({
+            page,
+            keyword: searchTerm,
+            category,
+            sex,
+            species,
+            locationId,
+            byPopularity: sortWord
         }));
     }, [dispatch, searchTerm, page, category, sex, species, locationId, sortWord]);
 
     useEffect(() => {
         setPage(1);
-    }, [searchTerm, category, sex, species, sortWord]); 
+    }, [searchTerm, category, sex, species, sortWord]);
 
     if (isLoading) return <div>Loading...</div>;
     if (noticesError) return <div>Error fetching notices: {noticesError}</div>;
@@ -64,10 +64,11 @@ const Notices = () => {
 
     const handleLocationChange = (selectedLocation) => {
         setLocationId(selectedLocation);
+        console.log('Selected location:', selectedLocation);
     };
 
     const handleSortChange = (selectedSortWord) => {
-        setSortWord(selectedSortWord); 
+        setSortWord(selectedSortWord);
     };
 
     return (
@@ -78,13 +79,13 @@ const Notices = () => {
             <div className={style.containerFilters}>
                 <NoticesFilters
                     searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm} 
+                    setSearchTerm={setSearchTerm}
                     onSearchSubmit={handleSearchSubmit}
                     onCategoryChange={handleCategoryChange}
                     onPetSexChange={handlePetSexChange}
                     onSpeciesChange={handleSpeciesChange}
                     onLocationChange={handleLocationChange}
-                    onSortChange={handleSortChange} 
+                    onSortChange={handleSortChange}
                 />
             </div>
             <div>

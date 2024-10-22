@@ -69,6 +69,7 @@ export const fetchPetType = createAsyncThunk(
 
 
 
+
 export const fetchNotices = createAsyncThunk(
   "notices/fetchNotices",
   async (
@@ -77,7 +78,7 @@ export const fetchNotices = createAsyncThunk(
   ) => {
     try {
       const resp = await axios.get(
-        `/notices?page=${page || 1}&keyword=${keyword || ""}&category=${
+        `/notices?page=${page || 1}& keyword=${keyword || ""}&category=${
           category === "all" ? "" : category
         }&species=${species === "all" ? "" : species}&locationId=${
           locationId ? locationId : ""

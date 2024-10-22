@@ -7,7 +7,7 @@ import {
   fetchNotices, 
   fetchPetSex, 
   fetchPetType, 
-  fetchNoticeById 
+  fetchNoticeById,
 } from "./operations";
 
 const initialState = {

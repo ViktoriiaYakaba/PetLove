@@ -1,7 +1,5 @@
 export const selectCities = (state) => state.cities.cities;
 
-export const selectCitiesLocations = (state) => state.cities.locations;
+export const selectIsLoadingCities = (state) => state.cities.isLoading;
 
-export const selectCitiesLoading = (state) => state.cities.loading;
-
-export const selectCitiesError = (state) => state.cities.error;
+export const selectErrorCities = (state) => state.cities.error;

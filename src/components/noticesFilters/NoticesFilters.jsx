@@ -5,11 +5,12 @@ import SvgIcon from '../../icon/SvgIcon';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { selectCategories, selectPetSex, selectPetTypes, selectSortWord } from '../../redux/notices/selectors';
 import { fetchCategories, fetchPetSex, fetchPetType } from '../../redux/notices/operations';
-import { fetchCities } from '../../redux/cities/operation';
-import { selectCities } from '../../redux/cities/selectors'; // Updated import path for selectors
 import { changeSexValue, changeSortWord } from '../../redux/notices/slice';
+import { fetchCities } from '../../redux/cities/operation';
+import { selectCities } from '../../redux/cities/selectors';
 import { Formik, Form, Field } from 'formik';
 import clsx from 'clsx';
+import { useDebounce } from 'use-debounce'; 
 
 const buildLinkClass = (key, values, value) => {
     return clsx(style.radioButton, values[key] === value && style.active);
@@ -29,17 +30,18 @@ const NoticesFilters = ({
     const categories = useSelector(selectCategories) || [];
     const petSex = useSelector(selectPetSex) || [];
     const petTypes = useSelector(selectPetTypes) || [];
-    const cities = useSelector(selectCities) || []; // Fetching cities from Redux
     const sortWord = useSelector(selectSortWord);
+    const cities = useSelector(selectCities);
 
     const [isOpenCategories, setIsOpenCategories] = useState(false);
     const [isOpenGenders, setIsOpenGenders] = useState(false);
     const [isOpenTypes, setIsOpenTypes] = useState(false);
     const [category, setCategory] = useState('');
     const [sex, setSex] = useState('');
-    const [currentCity, setCurrentCity] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [sortOption, setSortOption] = useState('popular');
+    const [currentCity, setCurrentCity] = useState('');
+    const [debouncedInputValue] = useDebounce(inputValue, 300); 
 
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
@@ -47,8 +49,13 @@ const NoticesFilters = ({
         if (!categories.length) dispatch(fetchCategories());
         if (!petSex.length) dispatch(fetchPetSex());
         if (!petTypes.length) dispatch(fetchPetType());
-        if (!cities.length) dispatch(fetchCities()); // Fetch cities on mount if not already available
-    }, [dispatch, categories.length, petSex.length, petTypes.length, cities.length]);
+    }, [dispatch, categories.length, petSex.length, petTypes.length]);
+
+    useEffect(() => {
+        if (debouncedInputValue) {
+            dispatch(fetchCities(debouncedInputValue));
+        }
+    }, [debouncedInputValue, dispatch]);
 
     useEffect(() => {
         setSortOption(sortWord);
@@ -67,6 +74,8 @@ const NoticesFilters = ({
         onSearchSubmit(searchTerm);
     }, [onSearchSubmit, searchTerm]);
 
+    
+
     const clearSearch = () => {
         setSearchTerm('');
         onSearchSubmit('');
@@ -74,20 +83,20 @@ const NoticesFilters = ({
 
     const handleLocationSubmit = useCallback((e) => {
         e.preventDefault();
-        onLocationChange(currentCity); // Submit selected city
+        onLocationChange(currentCity);
     }, [onLocationChange, currentCity]);
 
-    // Memoized city filtering based on input
     const filteredCities = useMemo(() => {
-        return cities.filter(city =>
+        const result = cities.filter(city =>
             `${city.stateEn}, ${city.cityEn}`.toLowerCase().includes(inputValue.toLowerCase())
         );
+        return result;
     }, [cities, inputValue]);
 
     const handleSelectCity = (city) => {
-        setCurrentCity(city.cityEn); // Set the selected city's name
-        setInputValue(''); // Clear the input value after selection
-        onLocationChange(city._id); // Pass the city ID to the parent callback
+        setCurrentCity(city.cityEn);
+        setInputValue('');
+        onLocationChange(city._id);  
     };
 
     const handleSelectCategory = (value) => handleSelect(value, (val) => {
@@ -121,7 +130,7 @@ const NoticesFilters = ({
                             <div className={style.inputWrapper}>
                                 <input
                                     type="text"
-                                    value={searchTerm}
+                                    value={searchTerm || ''} 
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     placeholder="Search"
                                     className={style.searchInput}
@@ -137,53 +146,7 @@ const NoticesFilters = ({
                             </div>
                         </form>
                     </li>
-
-                    {/* City Filter */}
-                    <li className={style.listItem}>
-                        <form className={style.searchFormLocation} onSubmit={handleLocationSubmit}>
-                            <div className={style.inputWrapperLocation}>
-                                <input
-                                    type="text"
-                                    value={inputValue}
-                                    onChange={(e) => setInputValue(e.target.value)} // Update input value for filtering
-                                    placeholder="Location"
-                                    className={style.searchInputLocation}
-                                />
-                                {currentCity && (
-                                    <button
-                                        type="button"
-                                        className={style.clearButtonLocation}
-                                        onClick={() => {
-                                            setCurrentCity('');
-                                            setInputValue('');
-                                        }}
-                                    >
-                                        <SvgIcon icon="x" width="20" height="20" />
-                                    </button>
-                                )}
-                                <button type="submit" className={style.searchButtonLocation}>
-                                    <SvgIcon icon="search" width="20" height="20" />
-                                </button>
-                            </div>
-                        </form>
-                        {inputValue && filteredCities.length > 0 && (
-                            <ul className={style.dropdownListActiveLocation}>
-                                {filteredCities.map((city) => (
-                                    <li
-                                        key={city._id} // Correct city key
-                                        onClick={() => handleSelectCity(city)} // Select the city
-                                        style={{ cursor: 'pointer', padding: 5 }}
-                                    >
-                                        {`${city.stateEn}, ${city.cityEn}`} {/* Display city and state */}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </li>
-
-                    {/* Other filters (Category, Gender, Type) */}
-
-                    {/* Category Filter */}
+                    
                     <li className={style.listItem}>
                         <div className={style.filterBox}>
                             <div className={style.inputBoxStyled} onClick={() => setIsOpenCategories(!isOpenCategories)}>
@@ -209,7 +172,6 @@ const NoticesFilters = ({
                         </div>
                     </li>
 
-                    {/* Gender Filter */}
                     <li className={style.listItem}>
                         <div className={style.filterBox}>
                             <div className={style.inputBoxStyled} onClick={() => setIsOpenGenders(!isOpenGenders)}>
@@ -235,7 +197,6 @@ const NoticesFilters = ({
                         </div>
                     </li>
 
-                    {/* Type Filter */}
                     <li className={style.listItem}>
                         <div className={style.filterBoxType}>
                             <div className={style.inputBoxStyledType} onClick={() => setIsOpenTypes(!isOpenTypes)}>
@@ -260,10 +221,51 @@ const NoticesFilters = ({
                             </div>
                         </div>
                     </li>
+
+                    <li className={style.listItem}>
+                        <form className={style.searchFormLocation} onSubmit={handleLocationSubmit}>
+                            <div className={style.inputWrapperLocation}>
+                                <input
+                                    type="text"
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    placeholder="Location"
+                                    className={style.searchInputLocation}
+                                />
+                                {currentCity && (
+                                    <button
+                                        type="button"
+                                        className={style.clearButtonLocation}
+                                        onClick={() => {
+                                            setCurrentCity('');
+                                            setInputValue('');
+                                        }}
+                                    >
+                                        <SvgIcon icon="x" width="20" height="20" />
+                                    </button>
+                                )}
+                                <button type="submit" className={style.searchButtonLocation}>
+                                    <SvgIcon icon="search" width="20" height="20" />
+                                </button>
+                            </div>
+                        </form>
+                        {inputValue && filteredCities.length > 0 && (
+                            <ul className={style.dropdownListActiveLocation}>
+                                {filteredCities.map((city) => (
+                                    <li
+                                        key={city._id} 
+                                        onClick={() => handleSelectCity(city)} 
+                                        style={{ cursor: 'pointer', padding: 5 }}
+                                    >
+                                        {`${city.stateEn}, ${city.cityEn}`} 
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </li>
                 </ul>
             </div>
 
-            {/* Sorting options */}
             <div className={style.containerRadio}>
                 <Formik initialValues={{ sortOption }} enableReinitialize onSubmit={() => {}}>
                     {({ values, setFieldValue }) => (
