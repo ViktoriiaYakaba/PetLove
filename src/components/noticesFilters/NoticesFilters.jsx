@@ -17,14 +17,13 @@ const buildLinkClass = (key, values, value) => {
 };
 
 const NoticesFilters = ({
-    searchTerm,
-    setSearchTerm,
-    onSearchSubmit,
-    onCategoryChange,
-    onPetSexChange,
+    setSearchTerm, 
+    onSearchSubmit, 
+    onCategoryChange, 
+    onPetSexChange, 
     onSpeciesChange,
-    onLocationChange,
-    onSortChange,
+    onLocationChange, 
+    onSortChange, 
 }) => {
     const dispatch = useDispatch();
     const categories = useSelector(selectCategories) || [];
@@ -38,11 +37,13 @@ const NoticesFilters = ({
     const [isOpenTypes, setIsOpenTypes] = useState(false);
     const [category, setCategory] = useState('');
     const [sex, setSex] = useState('');
-    const [inputValue, setInputValue] = useState('');
+    const [searchInputValue, setSearchInputValue] = useState(''); 
+    const [locationInputValue, setLocationInputValue] = useState(''); 
     const [sortOption, setSortOption] = useState('popular');
     const [currentCity, setCurrentCity] = useState('');
-    const [debouncedInputValue] = useDebounce(inputValue, 300); 
+    const [debouncedLocationInputValue] = useDebounce(locationInputValue, 300);  
 
+    
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
     useEffect(() => {
@@ -51,16 +52,19 @@ const NoticesFilters = ({
         if (!petTypes.length) dispatch(fetchPetType());
     }, [dispatch, categories.length, petSex.length, petTypes.length]);
 
+    
     useEffect(() => {
-        if (debouncedInputValue) {
-            dispatch(fetchCities(debouncedInputValue));
+        if (debouncedLocationInputValue) {
+            dispatch(fetchCities(debouncedLocationInputValue));
         }
-    }, [debouncedInputValue, dispatch]);
+    }, [debouncedLocationInputValue, dispatch]);
 
+   
     useEffect(() => {
         setSortOption(sortWord);
     }, [sortWord]);
 
+    
     const handleSelect = (value, callback) => {
         const selectedValue = value === 'Show All' ? '' : value;
         callback(selectedValue);
@@ -69,36 +73,41 @@ const NoticesFilters = ({
         setIsOpenTypes(false);
     };
 
+
     const handleSearchSubmit = useCallback((e) => {
-        e.preventDefault();
-        onSearchSubmit(searchTerm);
-    }, [onSearchSubmit, searchTerm]);
+        e.preventDefault();  
+        onSearchSubmit(searchInputValue);  
+    }, [searchInputValue, onSearchSubmit]);
 
     
-
     const clearSearch = () => {
+        setSearchInputValue(''); 
         setSearchTerm('');
         onSearchSubmit('');
     };
 
+    
     const handleLocationSubmit = useCallback((e) => {
         e.preventDefault();
         onLocationChange(currentCity);
     }, [onLocationChange, currentCity]);
 
+    
     const filteredCities = useMemo(() => {
         const result = cities.filter(city =>
-            `${city.stateEn}, ${city.cityEn}`.toLowerCase().includes(inputValue.toLowerCase())
+            `${city.stateEn}, ${city.cityEn}`.toLowerCase().includes(locationInputValue.toLowerCase())
         );
         return result;
-    }, [cities, inputValue]);
+    }, [cities, locationInputValue]);
 
+ 
     const handleSelectCity = (city) => {
         setCurrentCity(city.cityEn);
-        setInputValue('');
+        setLocationInputValue('');
         onLocationChange(city._id);  
     };
 
+   
     const handleSelectCategory = (value) => handleSelect(value, (val) => {
         setCategory(val);
         onCategoryChange(val);
@@ -126,16 +135,17 @@ const NoticesFilters = ({
             <div className={style.filters}>
                 <ul className={style.list}>
                     <li className={style.listItem}>
+                     
                         <form className={style.searchForm} onSubmit={handleSearchSubmit}>
                             <div className={style.inputWrapper}>
                                 <input
                                     type="text"
-                                    value={searchTerm || ''} 
-                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    value={searchInputValue}
+                                    onChange={(e) => setSearchInputValue(e.target.value)}
                                     placeholder="Search"
                                     className={style.searchInput}
                                 />
-                                {searchTerm && (
+                                {searchInputValue && (
                                     <button type="button" className={style.clearButton} onClick={clearSearch}>
                                         <SvgIcon icon="x" width="20" height="20" />
                                     </button>
@@ -148,6 +158,7 @@ const NoticesFilters = ({
                     </li>
                     
                     <li className={style.listItem}>
+                        
                         <div className={style.filterBox}>
                             <div className={style.inputBoxStyled} onClick={() => setIsOpenCategories(!isOpenCategories)}>
                                 {category || "Category"}
@@ -173,6 +184,7 @@ const NoticesFilters = ({
                     </li>
 
                     <li className={style.listItem}>
+                        
                         <div className={style.filterBox}>
                             <div className={style.inputBoxStyled} onClick={() => setIsOpenGenders(!isOpenGenders)}>
                                 {sex || "By gender"}
@@ -198,6 +210,7 @@ const NoticesFilters = ({
                     </li>
 
                     <li className={style.listItem}>
+                        
                         <div className={style.filterBoxType}>
                             <div className={style.inputBoxStyledType} onClick={() => setIsOpenTypes(!isOpenTypes)}>
                                 {"By type"}
@@ -227,8 +240,8 @@ const NoticesFilters = ({
                             <div className={style.inputWrapperLocation}>
                                 <input
                                     type="text"
-                                    value={inputValue}
-                                    onChange={(e) => setInputValue(e.target.value)}
+                                    value={locationInputValue}
+                                    onChange={(e) => setLocationInputValue(e.target.value)}
                                     placeholder="Location"
                                     className={style.searchInputLocation}
                                 />
@@ -238,7 +251,7 @@ const NoticesFilters = ({
                                         className={style.clearButtonLocation}
                                         onClick={() => {
                                             setCurrentCity('');
-                                            setInputValue('');
+                                            setLocationInputValue('');
                                         }}
                                     >
                                         <SvgIcon icon="x" width="20" height="20" />
@@ -249,7 +262,7 @@ const NoticesFilters = ({
                                 </button>
                             </div>
                         </form>
-                        {inputValue && filteredCities.length > 0 && (
+                        {locationInputValue && filteredCities.length > 0 && (
                             <ul className={style.dropdownListActiveLocation}>
                                 {filteredCities.map((city) => (
                                     <li
@@ -277,13 +290,14 @@ const NoticesFilters = ({
                                             type="radio"
                                             name="sortOption"
                                             value={option}
+                                            checked={values.sortOption === option}
                                             onChange={() => {
                                                 setFieldValue("sortOption", option);
                                                 handleSortChange(option);
                                             }}
                                         />
                                         <span className={style.radioLabel}>
-                                            {option}
+                                            {capitalize(option)}
                                             {values.sortOption === option && (
                                                 <button
                                                     type="button"

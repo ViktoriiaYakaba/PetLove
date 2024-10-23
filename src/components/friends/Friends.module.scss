@@ -9,6 +9,7 @@
     padding: 20px;
 
     @include for-tablet {
+    align-items: start;
     gap: 30px;
     }
 
@@ -26,6 +27,7 @@
     width: 335px;
 
     @include for-tablet {
+  
     }
 
     @include for-desktop {

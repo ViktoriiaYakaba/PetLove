@@ -18,7 +18,7 @@ const NoticesItem = ({ notice }) => {
             <p className={style.textList} ><span>Name</span>{notice.name }</p>
           </li>
           <li className={style.listItem}>
-            <p className={style.textList} ><span>Birthday</span>{ notice.birthday}</p>
+            <p className={style.textList} ><span>Birthday</span>{ notice.birthday || "Unknown"}</p>
           </li >
           <li className={style.listItem}>
             <p className={style.textList} ><span>Sex</span>{notice.sex }</p>
