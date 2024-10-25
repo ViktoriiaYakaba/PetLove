@@ -1,0 +1,263 @@
+@import '../../sass/index';
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.container{
+    position: relative;
+    border-radius: 30px;
+    width: 335px;
+    height: 446px;
+
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    background-color: $white-color;
+
+    @include for-tablet{
+    width: 473px;
+    height: 476px;
+    }
+
+    @include for-desktop{
+    width: 473px;
+    height: 476px;
+    }
+}
+
+.containerImg{
+    position: relative;
+}
+
+.img{
+    border-radius: 100px;
+    padding: 10px;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+
+    @include for-tablet{
+    width: 150px;
+    height: 150px;
+    }
+
+    @include for-desktop{
+    width: 150px;
+    height: 150px;
+    }
+}
+
+.badge {
+    position: absolute;
+    top: 10px;
+    left: -5px;
+    border-radius: 30px;
+    padding: 8px;
+    width: 48px;
+    height: 32px;
+
+    background: #fff4df;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.28571;
+    letter-spacing: -0.02em;
+    color: $orange-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+
+    @include for-tablet{
+    width: 52px;
+    height: 34px;
+
+    font-size: 14px;
+    }
+
+    @include for-desktop {
+    width: 52px;
+    height: 34px;
+
+    font-size: 14px;
+}
+}
+
+.closeIcon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+}
+
+.name{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.title{
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.25;
+    color: $text-color;
+
+    @include for-tablet{
+    font-size: 18px;
+    }
+
+    @include for-desktop{
+    font-size: 18px;
+    }
+}
+
+.rating{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+}
+
+.containerInformation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+
+    width: 243px;
+}
+
+.list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.textList {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.16667;
+    letter-spacing: -0.02em;
+    color: $text-color;
+
+
+    span {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: rgba(38, 38, 38, 0.5);
+    }
+}
+
+.comment{
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.02em;
+    color: $text-color;
+
+    width: 300px;
+}
+
+.containerBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    margin-top: 10px;
+}
+
+.btnFavorite{
+    border-radius: 30px;
+    padding: 14px;
+    width: 135px;
+    height: 44px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    background-color: $orange-color;
+
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: $white-color;
+
+    transition: 0.5s ease;
+
+    @include for-tablet{
+    width: 160px;
+    height: 48px;
+    }
+
+    @include for-desktop{
+    width: 160px;
+    height: 48px;
+    }
+}
+
+.btnFavorite:hover{
+    background: #f9b020;
+}
+
+.contact{
+    border-radius: 30px;
+    padding: 12px 37px;
+    width: 134px;
+    height: 44px;
+    background: #fff4df;
+
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: $orange-color;
+    transition: 0.5s ease;
+
+    @include for-tablet {
+        width: 160px;
+        height: 48px;
+    }
+
+    @include for-desktop {
+        width: 160px;
+        height: 48px;
+    }
+}
+
+.contact:hover{
+    background: #fbe7c1;
+}
+

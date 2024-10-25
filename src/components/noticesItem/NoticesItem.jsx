@@ -1,8 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import style from './NoticesItem.module.scss';
 import SvgIcon from '../../icon/SvgIcon';
+import ModalNotice from '../modalNotice/ModalNotice';
 
 const NoticesItem = ({ notice }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
     <div className={style.container}>
       <div className={style.containerImg}>
@@ -33,15 +40,18 @@ const NoticesItem = ({ notice }) => {
         <p className={style.comment}>{notice.comment}</p>
       </div>
       <div className={style.containerButton}>
-        <button className={style.btnLearn} type='button'>
+        <button className={style.btnLearn} type='button' onClick={toggleModal}>
           LearnMore
         </button>
         <button className={style.btnHeard} type='button'>
           <SvgIcon icon="heart" width="18" height="18" />
         </button>
       </div>
+      {isModalOpen && (
+        <ModalNotice notice={notice} onClose={toggleModal} />
+      )}
     </div>
   )
 }
 
-export default NoticesItem
+export default NoticesItem;
