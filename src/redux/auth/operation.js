@@ -77,3 +77,51 @@ export const refreshUser = createAsyncThunk(
    }
   }
 );
+
+export const getAllUserInfo = createAsyncThunk(
+    "auth/getAllUserInfo",
+    async (_, thunkAPI) => {
+        try {
+            const resp = await axios.get('/users/current/full')
+            return resp.data
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data.message)
+        }
+    }
+);
+
+export const editUserInfo = createAsyncThunk(
+    "auth/editUserInfo",
+    async (editData, thunkAPI) => {
+        try {
+            const resp = await axios.patch('/users/current/edit', editData)
+            return resp.data
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data.message)
+        }
+    }
+);
+
+export const addPet = createAsyncThunk(
+    "auth/addPet",
+    async (newPetData, thunkAPI) => {
+        try {
+            const resp = await axios.post('/users/current/pets/add', newPetData)
+            return resp.data
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data.message)
+        }
+    }
+);
+
+export const removePet = createAsyncThunk(
+    "auth/removePet",
+    async (id, thunkAPI) => {
+        try {
+            const resp = await axios.delete(`/users/current/pets/remove/${id}`)
+            return resp.data
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data.message)
+        }
+    }
+);

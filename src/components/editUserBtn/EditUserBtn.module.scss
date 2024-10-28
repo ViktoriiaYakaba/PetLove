@@ -1,0 +1,18 @@
+@import '../../sass/index';
+
+.btn{
+    border-radius: 30px;
+    padding: 15px;
+    width: 48px;
+    height: 48px;
+    transition: 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+
+    background: $ligthOrange-color;
+
+    &:hover {
+        background: #fbe7c1;
+    }
+}

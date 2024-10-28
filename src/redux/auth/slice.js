@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser, loginUser, logoutUser, refreshUser } from "./operation";
+import { registerUser, loginUser, logoutUser, refreshUser, getAllUserInfo, editUserInfo, addPet, removePet} from "./operation";
 
 const initialState = {
   user: { name: null, email: null, password: null, avatar: null },
@@ -17,7 +17,6 @@ const authSlice = createSlice({
   initialState,
   extraReducers: builder => {
     builder
-      // REGISTER USER
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -34,7 +33,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // LOGIN USER
+
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -51,7 +50,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // LOGOUT USER
+
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -70,7 +69,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // REFRESH USER SESSION
+
       .addCase(refreshUser.pending, (state) => {
         state.isRefreshing = true;
         state.error = null;
@@ -83,6 +82,56 @@ const authSlice = createSlice({
       })
       .addCase(refreshUser.rejected, (state, action) => {
         state.isRefreshing = false;
+        state.error = action.payload;
+      })
+      .addCase(getAllUserInfo.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getAllUserInfo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.user;
+        state.favoritesList = action.payload.favoritesList;
+        state.petsList = action.payload.petsList;
+      })
+      .addCase(getAllUserInfo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+     .addCase(editUserInfo.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(editUserInfo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = { ...state.user, ...action.payload };
+      })
+      .addCase(editUserInfo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+    .addCase(addPet.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(addPet.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.petsList = [...state.petsList, action.payload];
+      })
+      .addCase(addPet.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+    .addCase(removePet.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(removePet.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.petsList = state.petsList.filter(pet => pet.id !== action.payload.id);
+      })
+      .addCase(removePet.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload;
       });
   },

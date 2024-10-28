@@ -26,3 +26,20 @@ export const validationSchemaRegister = Yup.object({
     .min(7) 
     .required('Password is required'), 
 });
+
+export const validationSchemaUpdate = Yup.object().shape({
+  name: Yup.string().required('Name is required'),
+  email: Yup
+    .string()
+    .email('Invalid email format')
+    .required('Email is required'),
+  avatar: Yup
+    .string()
+    .url('Invalid URL format')
+    .matches(/^https?:\/\/.*\.(png|jpg|jpeg|gif|bmp|webp)$/, 'Invalid avatar URL')
+    .required('Avatar URL is required'),
+  phone: Yup
+    .string()
+    .matches(/^\+38\d{10}$/, 'Invalid phone number format')
+    .required('Phone number is required'),
+});

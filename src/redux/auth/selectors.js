@@ -12,3 +12,7 @@ export const selectErrorMessage = (state) => state.pets.error;
 export const selectIsRefreshing = (state) => state.auth.isRefreshing;
 
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
+
+export const selectFavorites = state => state.auth.favoritesList;
+
+export const selectPets = state => state.auth.petsList;
